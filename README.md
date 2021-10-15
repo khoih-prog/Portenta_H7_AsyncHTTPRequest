@@ -424,7 +424,7 @@ week_number: 41
 
 ---
 
-#### 2. [AsyncDweetPOST](examples/WiFi/AsyncDweetPOST) running on  on PORTENTA_H7_M7 WiFi 
+#### 2. [AsyncDweetPOST](examples/WiFi/AsyncDweetPOST) running on PORTENTA_H7_M7 WiFi 
 
 ```
 Start AsyncDweetPOST on PORTENTA_H7_M7
