@@ -1,0 +1,44 @@
+{
+  "name": "Portenta_H7_AsyncHTTPRequest",
+  "version": "1.0.0",
+  "keywords": "communication, http, async, websocket, webserver, async-webserver, async-tcp, async-udp, async-websocket, async-http, ssl, tls, mbed, mbed-portenta, portenta-h7, portentah7, portenta-h7-m7, portenta-h7-m4, portentah7-m7, portentah7-m4, stm32h7",
+  "description": "Simple Async HTTP Request library, supporting GET, POST, PUT, PATCH, DELETE and HEAD, on top of Portenta_H7_AsyncTCP library for Portenta_7, using Vision-shield thernet or Murata WiFi.",
+  "authors": 
+  [
+    {
+      "name": "Hristo Gochkov",
+      "url":   "https://github.com/me-no-dev"
+    },
+    {
+      "name":  "Khoi Hoang",
+      "url":   "https://github.com/khoih-prog",
+      "email": "khoih-prog@gmail.com",
+      "maintainer": true
+    }  
+  ],
+  "repository":
+  {
+    "type": "git",
+    "url": "//https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest"
+  },
+  "homepage": "https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest",
+  "export": {
+    "exclude": [
+      "linux",
+      "extras",
+      "tests"
+    ]
+  },
+  "dependencies":
+  [
+    {
+      "owner": "khoih-prog",
+      "name": "Portenta_H7_AsyncTCP",
+      "version": "^1.2.0"
+    }
+  ],
+  "frameworks": "*",
+  "platforms": "mbed_portenta",
+  "examples": "examples/*/*/*.ino",
+  "license": "MIT"
+}
