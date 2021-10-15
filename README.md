@@ -35,12 +35,12 @@
     * [5. AsyncSimpleGET](examples/Ethernet/AsyncSimpleGET)
     * [6. AsyncWebClientRepeating](examples/Ethernet/AsyncWebClientRepeating)
   * [2. For Murata WiFi](#2-for-Murata-WiFi)
-    * [1. AsyncHTTPRequest_WiFi](examples/WiFi/AsyncHTTPRequest)
-    * [2. AsyncCustomHeader_WiFi](examples/WiFi/AsyncCustomHeader)
-    * [3. AsyncDweetGet_WiFi](examples/WiFi/AsyncDweetGet)
-    * [4. AsyncDweetPost_WiFi](examples/WiFi/AsyncDweetPost)
-    * [5. AsyncSimpleGET_WiFi](examples/WiFi/AsyncSimpleGET)
-    * [6. AsyncWebClientRepeating_WiFi](examples/WiFi/AsyncWebClientRepeating)
+    * [1. AsyncHTTPRequest](examples/WiFi/AsyncHTTPRequest)
+    * [2. AsyncCustomHeader](examples/WiFi/AsyncCustomHeader)
+    * [3. AsyncDweetGet](examples/WiFi/AsyncDweetGet)
+    * [4. AsyncDweetPost](examples/WiFi/AsyncDweetPost)
+    * [5. AsyncSimpleGET](examples/WiFi/AsyncSimpleGET)
+    * [6. AsyncWebClientRepeating](examples/WiFi/AsyncWebClientRepeating)
 * [Example AsyncHTTPRequest](#example-asynchttprequest)
   * [1. File AsyncHTTPRequest.ino](#1-file-asynchttprequestino)
   * [2. File defines.h](#2-file-definesh) 
@@ -195,21 +195,21 @@ Supposing the Arduino mbed_portenta version is 2.5.2. These file must be copied 
 
 #### 1. For Vision-shield Ethernet
 
- 1. [AsyncHTTPRequest](examples/AsyncHTTPRequest)
- 2. [AsyncCustomHeader](examples/AsyncCustomHeader)
- 3. [AsyncDweetGet](examples/AsyncDweetGet)
- 4. [AsyncDweetPost](examples/AsyncDweetPost)
- 5. [AsyncSimpleGET](examples/AsyncSimpleGET)
- 6. [AsyncWebClientRepeating](examples/AsyncWebClientRepeating)
+ 1. [AsyncHTTPRequest](examples/Ethernet/AsyncHTTPRequest)
+ 2. [AsyncCustomHeader](examples/Ethernet/AsyncCustomHeader)
+ 3. [AsyncDweetGet](examples/Ethernet/AsyncDweetGet)
+ 4. [AsyncDweetPost](examples/Ethernet/AsyncDweetPost)
+ 5. [AsyncSimpleGET](examples/Ethernet/AsyncSimpleGET)
+ 6. [AsyncWebClientRepeating](examples/Ethernet/AsyncWebClientRepeating)
 
 #### 2. For Murata WiFi
 
- 1. [AsyncHTTPRequest_WiFi](examples/WiFi/AsyncHTTPRequest)
- 2. [AsyncCustomHeader_WiFi](examples/WiFi/AsyncCustomHeader)
- 3. [AsyncDweetGet_WiFi](examples/WiFi/AsyncDweetGet)
- 4. [AsyncDweetPost_WiFi](examples/WiFi/AsyncDweetPost)
- 5. [AsyncSimpleGET_WiFi](examples/WiFi/AsyncSimpleGET)
- 6. [AsyncWebClientRepeating_WiFi](examples/WiFi/AsyncWebClientRepeating)
+ 1. [AsyncHTTPRequest](examples/WiFi/AsyncHTTPRequest)
+ 2. [AsyncCustomHeader](examples/WiFi/AsyncCustomHeader)
+ 3. [AsyncDweetGet](examples/WiFi/AsyncDweetGet)
+ 4. [AsyncDweetPost](examples/WiFi/AsyncDweetPost)
+ 5. [AsyncSimpleGET](examples/WiFi/AsyncSimpleGET)
+ 6. [AsyncWebClientRepeating](examples/WiFi/AsyncWebClientRepeating)
 
 
 ---
