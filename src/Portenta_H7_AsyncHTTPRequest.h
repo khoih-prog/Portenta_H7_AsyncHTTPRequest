@@ -19,11 +19,12 @@
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
   You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.  
  
-  Version: 1.0.0
+  Version: 1.1.0
   
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.0.0    K Hoang     13/10/2020 Initial coding for Portenta_H7
+  1.1.0    K Hoang     30/12/2021 Fix `multiple-definitions` linker error
  *****************************************************************************************************************************/
 
 #pragma once
@@ -60,7 +61,13 @@
   #define SHIELD_TYPE           "Portenta_H7 WiFi"
 #endif
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION   "Portenta_H7_AsyncHTTPRequest v1.0.0"
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION            "Portenta_H7_AsyncHTTPRequest v1.1.0"
+
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MAJOR      1
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MINOR      1
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_PATCH      0
+
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT        1001000
 
 #include <Arduino.h>
 
@@ -90,7 +97,110 @@
  
 
 #include <avr/pgmspace.h>
-#include <utility/xbuf.h>
+
+// Merge xbuf
+////////////////////////////////////////////////////////////////////////////
+
+struct xseg 
+{
+  xseg    *next;
+  uint8_t data[];
+};
+
+class xbuf: public Print 
+{
+  public:
+
+    xbuf(const uint16_t segSize = 64);
+    virtual ~xbuf();
+
+    size_t      write(const uint8_t);
+    size_t      write(const char*);
+    size_t      write(const uint8_t*, const size_t);
+    size_t      write(xbuf*, const size_t);
+    size_t      write(const String& string);
+    size_t      available();
+    int         indexOf(const char, const size_t begin = 0);
+    int         indexOf(const char*, const size_t begin = 0);
+    uint8_t     read();
+    size_t      read(uint8_t*, size_t);
+    String      readStringUntil(const char);
+    String      readStringUntil(const char*);
+    String      readString(int);
+    
+    String      readString() 
+    {
+      return readString(available());
+    }
+    
+    void        flush();
+
+    uint8_t     peek();
+    size_t      peek(uint8_t*, const size_t);
+    
+    String      peekStringUntil(const char target) 
+    {
+      return peekString(indexOf(target, 0));
+    }
+    
+    String      peekStringUntil(const char* target) 
+    {
+      return peekString(indexOf(target, 0));
+    }
+    
+    String      peekString() 
+    {
+      return peekString(_used);
+    }
+    
+    String      peekString(int);
+
+    /*      In addition to the above functions,
+    the following inherited functions from the Print class are available.
+    
+    size_t printf(const char * format, ...)  __attribute__ ((format (printf, 2, 3)));
+    size_t printf_P(PGM_P format, ...) __attribute__((format(printf, 2, 3)));
+    size_t print(const __FlashStringHelper *);
+    size_t print(const String &);
+    size_t print(const char[]);
+    size_t print(char);
+    size_t print(unsigned char, int = DEC);
+    size_t print(int, int = DEC);
+    size_t print(unsigned int, int = DEC);
+    size_t print(long, int = DEC);
+    size_t print(unsigned long, int = DEC);
+    size_t print(double, int = 2);
+    size_t print(const Printable&);
+    
+    size_t println(const __FlashStringHelper *);
+    size_t println(const String &s);
+    size_t println(const char[]);
+    size_t println(char);
+    size_t println(unsigned char, int = DEC);
+    size_t println(int, int = DEC);
+    size_t println(unsigned int, int = DEC);
+    size_t println(long, int = DEC);
+    size_t println(unsigned long, int = DEC);
+    size_t println(double, int = 2);
+    size_t println(const Printable&);
+    size_t println(void);
+    */
+
+  protected:
+
+    xseg        *_head;
+    xseg        *_tail;
+    uint16_t     _used;
+    uint16_t     _free;
+    uint16_t     _offset;
+    uint16_t     _segSize;
+
+    void        addSeg();
+    void        remSeg();
+
+};
+
+////////////////////////////////////////////////////////////////////////////
 
 #define DEBUG_HTTP(format,...)  if(_debug){\
     DEBUG_IOTA_PORT.printf("Debug(%3ld): ", millis()-_requestStartTime);\
@@ -190,7 +300,7 @@ class AsyncHTTPRequest
     void        setReqHeader(const char* name, int32_t value);          // overload to use integer value
     
     bool        send();                                                 // Send the request (GET)
-    bool        send(String body);                                      // Send the request (POST)
+    bool        send(const String& body);                               // Send the request (POST)
     bool        send(const char* body);                                 // Send the request (POST)
     bool        send(const uint8_t* buffer, size_t len);                // Send the request (POST) (binary data?)
     bool        send(xbuf* body, size_t len);                           // Send the request (POST) data in an xbuf
@@ -275,7 +385,7 @@ class AsyncHTTPRequest
     header*     _getHeader(int);
     bool        _buildRequest();
     bool        _parseURL(const char*);
-    bool        _parseURL(String);
+    bool        _parseURL(const String& url);
     void        _processChunks();
     bool        _connect();
     size_t      _send();
@@ -290,7 +400,5 @@ class AsyncHTTPRequest
     void        _onPoll(AsyncClient*);
     bool        _collectHeaders();
 };
-
-#include "Portenta_H7_AsyncHTTPRequest_Impl.h"
 
 #endif    // PORTENTA_H7_ASYNC_HTTP_REQUEST_H

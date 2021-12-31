@@ -25,6 +25,7 @@
 * [Packages' Patches](#packages-patches)
   * [1. For Portenta_H7 boards using Arduino IDE in Linux](#1-for-portenta_h7-boards-using-arduino-ide-in-linux)
   * [2. To fix compile error relating to dns_gethostbyname and LwIP stack](#2-to-fix-compile-error-relating-to-dns_gethostbyname-and-lwip-stack)
+* [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error) 
 * [Examples](#examples)
   * [1. For Vision-shield Ethernet](#1-for-Vision-shield-Ethernet)
     * [1. AsyncHTTPRequest](examples/Ethernet/AsyncHTTPRequest)
@@ -115,9 +116,9 @@ This library is based on, modified from:
 
 ## Prerequisites
 
- 1. [`Arduino IDE 1.8.16+` for Arduino](https://www.arduino.cc/en/Main/Software)
- 2. [`ArduinoCore-mbed mbed_portenta core 2.5.2+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino **Portenta_H7** boards, such as **Portenta_H7 Rev2 ABX00042, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
- 3. [`Portenta_H7_AsyncTCP library v1.2.0+`](https://github.com/khoih-prog/Portenta_H7_AsyncTCP) for Portenta_H7 using `Vision-shield Ethernet` or `Murata WiFi`. [To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/Portenta_H7_AsyncTCP.svg?)](https://www.ardu-badge.com/Portenta_H7_AsyncTCP)
+ 1. [`Arduino IDE 1.8.19+` for Arduino](https://www.arduino.cc/en/Main/Software)
+ 2. [`ArduinoCore-mbed mbed_portenta core 2.6.1+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino **Portenta_H7** boards, such as **Portenta_H7 Rev2 ABX00042, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
+ 3. [`Portenta_H7_AsyncTCP library v1.3.0+`](https://github.com/khoih-prog/Portenta_H7_AsyncTCP) for Portenta_H7 using `Vision-shield Ethernet` or `Murata WiFi`. [To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/Portenta_H7_AsyncTCP.svg?)](https://www.ardu-badge.com/Portenta_H7_AsyncTCP)
 
 ---
 ---
@@ -186,6 +187,28 @@ Supposing the Arduino mbed_portenta version is 2.5.2. These file must be copied 
 - `~/.arduino15/packages/arduino/hardware/mbed_portenta/2.5.2/libraries/SocketWrapper/src/MbedUdp.cpp`
 - `~/.arduino15/packages/arduino/hardware/mbed_portenta/2.5.2/cores/arduino/src/mbed/connectivity/lwipstack/include/lwipstack/lwipopts.h`
 
+---
+---
+
+### HOWTO Fix `Multiple Definitions` Linker Error
+
+The current library implementation, using `xyz-Impl.h` instead of standard `xyz.cpp`, possibly creates certain `Multiple Definitions` Linker error in certain use cases.
+
+You can use
+
+```
+#include <Portenta_H7_AsyncHTTPRequest.h>           //https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
+```
+
+in many files. But be sure to use the following `#include <Portenta_H7_AsyncHTTPRequest_Impl.h>` **in just 1 `.h`, `.cpp` or `.ino` file**, which must **not be included in any other file**, to avoid `Multiple Definitions` Linker Error
+
+```
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
+#include <Portenta_H7_AsyncHTTPRequest_Impl.h>      // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
+```
+
+Have a look at the discussion in [Different behaviour using the src_cpp or src_h lib #80](https://github.com/khoih-prog/ESPAsync_WiFiManager/discussions/80)
+
 
 ---
 ---
@@ -222,21 +245,17 @@ Please take a look at other examples, as well.
 ```cpp
 #include "defines.h"
 
-// 600s = 10 minutes to not flooding, 60s in testing
-#define HTTP_REQUEST_INTERVAL_MS     60000  //600000
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.1.0"
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1001000
 
-#include <Portenta_H7_AsyncHTTPRequest.h>        // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
+#include <Portenta_H7_AsyncHTTPRequest.h>         // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
 
-#include <Ticker.h>                   // https://github.com/sstaub/Ticker
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
+#include "Portenta_H7_AsyncHTTPRequest_Impl.h"    // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
 
 AsyncHTTPRequest request;
 
-void sendRequest(void);
-
-// Repeat forever, millis() resolution
-Ticker sendHTTPRequest(sendRequest, HTTP_REQUEST_INTERVAL_MS, 0, MILLIS); 
-
-void sendRequest(void)
+void sendRequest()
 {
   static bool requestOpenResult;
   
@@ -244,9 +263,12 @@ void sendRequest(void)
   {
     //requestOpenResult = request.open("GET", "http://worldtimeapi.org/api/timezone/Europe/London.txt");
     requestOpenResult = request.open("GET", "http://worldtimeapi.org/api/timezone/America/Toronto.txt");
+    //requestOpenResult = request.open("GET", "http://213.188.196.246/api/timezone/America/Toronto.txt");
     
     if (requestOpenResult)
     {
+      Serial.println("Request sent");
+      
       // Only send() if open() returns true, or crash
       request.send();
     }
@@ -275,14 +297,25 @@ void requestCB(void* optParm, AsyncHTTPRequest* request, int readyState)
   }
 }
 
-void setup(void) 
+void setup() 
 {
   Serial.begin(115200);
   while (!Serial);
   
-  Serial.println("\nStart AsyncHTTPRequest on " + String(BOARD_NAME));
-  Serial.println(ASYNC_HTTP_REQUEST_GENERIC_VERSION);
+  Serial.print("\nStart AsyncHTTPRequest on "); Serial.println(BOARD_NAME);
+  Serial.println(PORTENTA_H7_ASYNC_TCP_VERSION);
+  Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION);
 
+#if defined(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN)
+  if (PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT < PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN)
+  {
+    Serial.print("Warning. Must use this example on Version equal or later than : ");
+    Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET);
+  }
+#endif
+  
+  ///////////////////////////////////
+  
   // start the ethernet connection and the server
   // Use random mac
   uint16_t index = millis() % NUMBER_OF_MAC;
@@ -292,23 +325,52 @@ void setup(void)
   // Use DHCP dynamic IP and random mac
   Ethernet.begin(mac[index]);
 
-  Serial.print(F("AsyncHTTPRequest @ IP : "));
+  if (Ethernet.hardwareStatus() == EthernetNoHardware) 
+  {
+    Serial.println("No Ethernet found. Stay here forever");
+    
+    while (true) 
+    {
+      delay(1); // do nothing, no point running without Ethernet hardware
+    }
+  }
+  
+  if (Ethernet.linkStatus() == LinkOFF) 
+  {
+    Serial.println("Not connected Ethernet cable");
+  }
+
+  Serial.print(F("Using mac index = "));
+  Serial.println(index);
+
+  Serial.print(F("Connected! IP address: "));
   Serial.println(Ethernet.localIP());
-  Serial.println();
+
+  ///////////////////////////////////
 
   request.setDebug(false);
   
   request.onReadyStateChange(requestCB);
-  sendHTTPRequest.start(); //start the ticker.
-
-  // Send first request now
-  //delay(60);
-  sendRequest();
 }
 
-void loop(void) 
+void sendRequestRepeat()
 {
-  sendHTTPRequest.update();
+  static unsigned long sendRequest_timeout = 0;
+
+#define SEND_REQUEST_INTERVAL     60000L
+
+  // sendRequest every SEND_REQUEST_INTERVAL (60) seconds: we don't need to sendRequest frequently
+  if ((millis() > sendRequest_timeout) || (sendRequest_timeout == 0))
+  {
+    sendRequest();
+    
+    sendRequest_timeout = millis() + SEND_REQUEST_INTERVAL;
+  }
+}
+
+void loop()
+{
+  sendRequestRepeat();
 }
 ```
 
@@ -375,49 +437,47 @@ byte mac[][NUMBER_OF_MAC] =
 
 ```
 Start AsyncHTTPRequest on PORTENTA_H7_M7
-Portenta_H7_AsyncTCP v1.2.0
-Portenta_H7_AsyncHTTPRequest v1.0.0
-Connecting to SSID: HueNet1
-SSID: HueNet1
-Local IP Address: 192.168.2.94
-signal strength (RSSI):-27 dBm
+Portenta_H7_AsyncTCP v1.3.0
+Portenta_H7_AsyncHTTPRequest v1.1.0
+Using mac index = 15
+Connected! IP address: 192.168.2.101
 Request sent
 
 **************************************
-abbreviation: EDT
-client_ip: 104.247.246.186
-datetime: 2021-10-14T21:35:10.868467-04:00
+abbreviation: EST
+client_ip: aaa.bbb.ccc.ddd
+datetime: 2021-12-30T21:59:53.472764-05:00
 day_of_week: 4
-day_of_year: 287
-dst: true
-dst_from: 2021-03-14T07:00:00+00:00
-dst_offset: 3600
-dst_until: 2021-11-07T06:00:00+00:00
+day_of_year: 364
+dst: false
+dst_from: 
+dst_offset: 0
+dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1634261710
-utc_datetime: 2021-10-15T01:35:10.868467+00:00
-utc_offset: -04:00
-week_number: 41
+unixtime: 1640919593
+utc_datetime: 2021-12-31T02:59:53.472764+00:00
+utc_offset: -05:00
+week_number: 52
 **************************************
 Request sent
 
 **************************************
-abbreviation: EDT
-client_ip: 104.247.246.186
-datetime: 2021-10-14T21:36:10.578544-04:00
+abbreviation: EST
+client_ip: aaa.bbb.ccc.ddd
+datetime: 2021-12-30T22:00:52.995098-05:00
 day_of_week: 4
-day_of_year: 287
-dst: true
-dst_from: 2021-03-14T07:00:00+00:00
-dst_offset: 3600
-dst_until: 2021-11-07T06:00:00+00:00
+day_of_year: 364
+dst: false
+dst_from: 
+dst_offset: 0
+dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1634261770
-utc_datetime: 2021-10-15T01:36:10.578544+00:00
-utc_offset: -04:00
-week_number: 41
+unixtime: 1640919652
+utc_datetime: 2021-12-31T03:00:52.995098+00:00
+utc_offset: -05:00
+week_number: 52
 **************************************
 ```
 
@@ -427,8 +487,8 @@ week_number: 41
 
 ```
 Start AsyncDweetPOST on PORTENTA_H7_M7
-Portenta_H7_AsyncTCP v1.2.0
-Portenta_H7_AsyncHTTPRequest v1.0.0
+Portenta_H7_AsyncTCP v1.3.0
+Portenta_H7_AsyncHTTPRequest v1.1.0
 Connecting to SSID: HueNet1
 SSID: HueNet1
 Local IP Address: 192.168.2.94
@@ -450,8 +510,8 @@ Actual value: 88
 
 ```
 Start AsyncWebClientRepeating on PORTENTA_H7_M7
-Portenta_H7_AsyncTCP v1.2.0
-Portenta_H7_AsyncHTTPRequest v1.0.0
+Portenta_H7_AsyncTCP v1.3.0
+Portenta_H7_AsyncHTTPRequest v1.1.0
 Connecting to SSID: HueNet1
 SSID: HueNet1
 Local IP Address: 192.168.2.94
@@ -508,29 +568,29 @@ signal strength (RSSI):-26 dBm
 
 ```
 Start AsyncCustomHeader on PORTENTA_H7_M7
-Portenta_H7_AsyncTCP v1.2.0
-Portenta_H7_AsyncHTTPRequest v1.0.0
+Portenta_H7_AsyncTCP v1.3.0
+Portenta_H7_AsyncHTTPRequest v1.1.0
 Using mac index = 15
 Connected! IP address: 192.168.2.87
 
 Sending GET Request to http://worldtimeapi.org/api/timezone/America/Toronto.txt
 
 **************************************
-abbreviation: EDT
-client_ip: 104.247.246.186
-datetime: 2021-10-14T23:17:29.959459-04:00
+abbreviation: EST
+client_ip: aaa.bbb.ccc.ddd
+datetime: 2021-12-30T22:03:51.798061-05:00
 day_of_week: 4
-day_of_year: 287
-dst: true
-dst_from: 2021-03-14T07:00:00+00:00
-dst_offset: 3600
-dst_until: 2021-11-07T06:00:00+00:00
+day_of_year: 364
+dst: false
+dst_from: 
+dst_offset: 0
+dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1634267849
-utc_datetime: 2021-10-15T03:17:29.959459+00:00
-utc_offset: -04:00
-week_number: 41
+unixtime: 1640919831
+utc_datetime: 2021-12-31T03:03:51.798061+00:00
+utc_offset: -05:00
+week_number: 52
 **************************************
 ```
 
@@ -541,8 +601,8 @@ week_number: 41
 
 ```
 Start AsyncWebClientRepeating on PORTENTA_H7_M7
-Portenta_H7_AsyncTCP v1.2.0
-Portenta_H7_AsyncHTTPRequest v1.0.0
+Portenta_H7_AsyncTCP v1.3.0
+Portenta_H7_AsyncHTTPRequest v1.1.0
 Using mac index = 16
 Connected! IP address: 192.168.2.87
 
@@ -589,8 +649,6 @@ Connected! IP address: 192.168.2.87
   ;;   ;; ;;  ;;` ;;;;.   `;;;:  ,;;;;;, ;;  ;;,  ;;;;   
 
 **************************************
-
-
 ```
 
 ---
@@ -600,45 +658,46 @@ Connected! IP address: 192.168.2.87
 
 ```
 Start AsyncSimpleGET on PORTENTA_H7_M7
-Portenta_H7_AsyncTCP v1.2.0
-Portenta_H7_AsyncHTTPRequest v1.0.0
+Portenta_H7_AsyncTCP v1.3.0
+Portenta_H7_AsyncHTTPRequest v1.1.0
 Using mac index = 7
 Connected! IP address: 192.168.2.87
 
 **************************************
-abbreviation: EDT
-client_ip: 104.247.246.186
-datetime: 2021-10-15T00:01:51.549579-04:00
-day_of_week: 5
-day_of_year: 288
-dst: true
-dst_from: 2021-03-14T07:00:00+00:00
-dst_offset: 3600
-dst_until: 2021-11-07T06:00:00+00:00
+abbreviation: EST
+client_ip: aaa.bbb.ccc.ddd
+datetime: 2021-12-30T22:07:34.904535-05:00
+day_of_week: 4
+day_of_year: 364
+dst: false
+dst_from: 
+dst_offset: 0
+dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1634270511
-utc_datetime: 2021-10-15T04:01:51.549579+00:00
-utc_offset: -04:00
-week_number: 41
+unixtime: 1640920054
+utc_datetime: 2021-12-31T03:07:34.904535+00:00
+utc_offset: -05:00
+week_number: 52
 **************************************
+Request sent
 
 **************************************
-abbreviation: EDT
-client_ip: 104.247.246.186
-datetime: 2021-10-15T00:02:51.282287-04:00
-day_of_week: 5
-day_of_year: 288
-dst: true
-dst_from: 2021-03-14T07:00:00+00:00
-dst_offset: 3600
-dst_until: 2021-11-07T06:00:00+00:00
+abbreviation: EST
+client_ip: aaa.bbb.ccc.ddd
+datetime: 2021-12-30T22:08:34.580278-05:00
+day_of_week: 4
+day_of_year: 364
+dst: false
+dst_from: 
+dst_offset: 0
+dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1634270571
-utc_datetime: 2021-10-15T04:02:51.282287+00:00
-utc_offset: -04:00
-week_number: 41
+unixtime: 1640920114
+utc_datetime: 2021-12-31T03:08:34.580278+00:00
+utc_offset: -05:00
+week_number: 52
 **************************************
 ```
 
@@ -689,7 +748,8 @@ Submit issues to: [Portenta_H7_AsyncHTTPRequest issues](https://github.com/khoih
  2. Add support to `Murata` WiFi
  3. Add debugging features.
  4. Add PUT, PATCH, DELETE and HEAD besides GET and POST.
-
+ 5. Fix `multiple-definitions` linker error and weird bug related to `src_cpp`.
+ 6. Optimize library code by using `reference-passing` instead of `value-passing`
 
 ---
 ---

@@ -21,11 +21,17 @@
 
 #include "defines.h"
 
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.1.0"
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1001000
+
 // Select a test server address
 //char GET_ServerAddress[]      = "192.168.2.110/";
 char GET_ServerAddress[]    = "http://worldtimeapi.org/api/timezone/America/Toronto.txt";
 
-#include <Portenta_H7_AsyncHTTPRequest.h>       // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
+#include <Portenta_H7_AsyncHTTPRequest.h>         // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
+
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
+#include "Portenta_H7_AsyncHTTPRequest_Impl.h"    // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
 
 AsyncHTTPRequest request;
 
@@ -77,6 +83,14 @@ void setup()
   Serial.print("\nStart AsyncCustomHeader on "); Serial.println(BOARD_NAME);
   Serial.println(PORTENTA_H7_ASYNC_TCP_VERSION);
   Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION);
+
+#if defined(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN)
+  if (PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT < PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN)
+  {
+    Serial.print("Warning. Must use this example on Version equal or later than : ");
+    Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET);
+  }
+#endif
 
   ///////////////////////////////////
   
