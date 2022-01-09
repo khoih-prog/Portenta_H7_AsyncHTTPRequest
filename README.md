@@ -10,7 +10,7 @@
 
 ## Table of Contents
 
-
+* [Important Breaking Change from v1.1.0](#Important-Breaking-Change-from-v110)
 * [Why do we need the new Async Portenta_H7_AsyncHTTPRequest library](#why-do-we-need-this-async-Portenta_H7_AsyncHTTPRequest-library)
   * [Features](#features)
   * [Supports](#supports)
@@ -60,6 +60,29 @@
 * [Contributing](#contributing)
 * [License and credits](#license-and-credits)
 * [Copyright](#copyright)
+
+---
+---
+
+### Important Breaking Change from v1.1.0
+
+Please have a look at [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error)
+
+From v1.1.0, you must use
+
+```
+#include <Portenta_H7_AsyncHTTPRequest.h>           //https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
+
+// To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
+#include <Portenta_H7_AsyncHTTPRequest_Impl.h>      // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
+```
+
+instead of only
+
+```
+#include <Portenta_H7_AsyncHTTPRequest.h>           //https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
+```
+
 
 ---
 ---
