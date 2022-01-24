@@ -11,6 +11,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v1.2.0](#releases-v120)
   * [Releases v1.1.0](#releases-v110)
   * [Initial Releases v1.0.0](#Initial-Releases-v100)
 
@@ -18,6 +19,12 @@
 ---
 
 ## Changelog
+
+### Releases v1.2.0
+
+1. Reduce the breaking effect of v1.5.0 by enabling compatibility with old code to include only `Portenta_H7_AsyncHTTPRequest.h`
+2. Add example [multiFileProject](examples/multiFileProject) to demo for multiple-file project
+3. Update `Packages' Patches`
 
 ### Releases v1.1.0
 

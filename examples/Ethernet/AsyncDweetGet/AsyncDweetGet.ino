@@ -30,8 +30,8 @@
 
 #include "defines.h"
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.1.0"
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1001000
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.2.0"
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1002000
 
 // Select a test server address           
 const char GET_ServerAddress[] = "dweet.io";
@@ -39,10 +39,9 @@ const char GET_ServerAddress[] = "dweet.io";
 // use your own thing name here
 String dweetName = "/dweet/for/currentSecond?second=";
 
-#include <Portenta_H7_AsyncHTTPRequest.h>         // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
 
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
-#include "Portenta_H7_AsyncHTTPRequest_Impl.h"    // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
+#include <Portenta_H7_AsyncHTTPRequest.h>         // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
 
 AsyncHTTPRequest request;
 

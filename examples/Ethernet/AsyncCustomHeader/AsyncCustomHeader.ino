@@ -4,9 +4,7 @@
   For Portenta_H7 (STM32H7) with Vision-Shield Ethernet or Murata WiFi
   
   Portenta_H7_AsyncHTTPRequest is a library for the Portenta_H7 with with Vision-Shield Ethernet Ethernet or Murata WiFi
-  
-  Portenta_H7_AsyncHTTPRequest is a library for Portenta_H7
-  
+   
   Based on and modified from asyncHTTPrequest Library (https://github.com/boblemaire/asyncHTTPrequest)
   
   Built by Khoi Hoang https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
@@ -21,17 +19,15 @@
 
 #include "defines.h"
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.1.0"
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1001000
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.2.0"
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1002000
 
 // Select a test server address
 //char GET_ServerAddress[]      = "192.168.2.110/";
 char GET_ServerAddress[]    = "http://worldtimeapi.org/api/timezone/America/Toronto.txt";
 
-#include <Portenta_H7_AsyncHTTPRequest.h>         // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
-
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
-#include "Portenta_H7_AsyncHTTPRequest_Impl.h"    // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
+#include <Portenta_H7_AsyncHTTPRequest.h>         // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
 
 AsyncHTTPRequest request;
 

@@ -19,12 +19,13 @@
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
   You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.  
  
-  Version: 1.1.0
+  Version: 1.2.0
   
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.0.0    K Hoang     13/10/2020 Initial coding for Portenta_H7
   1.1.0    K Hoang     30/12/2021 Fix `multiple-definitions` linker error
+  1.2.0    K Hoang     24/01/2022 Enable compatibility with old code to include only AsyncHTTPRequest_Generic.h
  *****************************************************************************************************************************/
  
 #pragma once
