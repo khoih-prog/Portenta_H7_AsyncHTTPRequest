@@ -30,8 +30,8 @@
 
 #include "defines.h"
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.2.0"
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1002000
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.3.0"
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1003000
 
 // Select a test server address           
 const char GET_ServerAddress[] = "dweet.io";
@@ -108,16 +108,27 @@ void requestCB(void* optParm, AsyncHTTPRequest* request, int readyState)
   
   if (readyState == readyStateDone)
   {
-    String responseText = request->responseText();
-    
-    Serial.println("\n**************************************");
-    //Serial.println(request->responseText());
-    Serial.println(responseText);
-    Serial.println("**************************************");
+    Serial.println();
+    AHTTP_LOGWARN(F("\n**************************************"));
+    AHTTP_LOGWARN1(F("Response Code = "), request->responseHTTPString());
 
-    parseResponse(responseText);
+    if (request->responseHTTPcode() == 200)
+    {
+      String responseText = request->responseText();
       
-    request->setDebug(false);
+      Serial.println("\n**************************************");
+      //Serial.println(request->responseText());
+      Serial.println(responseText);
+      Serial.println("**************************************");
+  
+      parseResponse(responseText);
+        
+      request->setDebug(false);
+    }
+    else
+    {
+      AHTTP_LOGERROR(F("Response error"));
+    }
   }
 }
 
@@ -142,7 +153,7 @@ void printWifiStatus()
 void setup() 
 {
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial && millis() < 5000);
 
   Serial.print("\nStart AsyncDweetGET on "); Serial.println(BOARD_NAME);
   Serial.println(PORTENTA_H7_ASYNC_TCP_VERSION);

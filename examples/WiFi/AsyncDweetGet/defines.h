@@ -27,6 +27,12 @@
   #error For Portenta_H7 only
 #endif
 
+#define PORTENTA_H7_ASYNC_HTTP_DEBUG_PORT       Serial
+
+// Use from 0 to 4. Higher number, more debugging messages and memory usage.
+#define _PORTENTA_H7_ATCP_LOGLEVEL_             1
+#define _ASYNC_HTTP_LOGLEVEL_                   2
+
 #define USE_WIFI_PORTENTA_H7        true
 
 #include <WiFi.h>

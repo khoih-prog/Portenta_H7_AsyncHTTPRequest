@@ -4,9 +4,7 @@
   For Portenta_H7 (STM32H7) with Vision-Shield Ethernet or Murata WiFi
   
   Portenta_H7_AsyncHTTPRequest is a library for the Portenta_H7 with with Vision-Shield Ethernet Ethernet or Murata WiFi
-  
-  Portenta_H7_AsyncHTTPRequest is a library for Portenta_H7
-  
+   
   Based on and modified from asyncHTTPrequest Library (https://github.com/boblemaire/asyncHTTPrequest)
   
   Built by Khoi Hoang https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
@@ -19,13 +17,14 @@
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
   You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.  
  
-  Version: 1.2.0
+  Version: 1.3.0
   
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.0.0    K Hoang     13/10/2020 Initial coding for Portenta_H7
   1.1.0    K Hoang     30/12/2021 Fix `multiple-definitions` linker error
   1.2.0    K Hoang     24/01/2022 Enable compatibility with old code to include only AsyncHTTPRequest_Generic.h
+  1.3.0    K Hoang     02/09/2022 Fix bug. Improve debug messages. Optimize code
  *****************************************************************************************************************************/
  
 #pragma once
@@ -300,15 +299,15 @@ String xbuf::readString(int endPos)
   if ( ! result.reserve(endPos + 1)) 
   {
     // KH, to remove
-    AHTTP_LOGDEBUG1("xbuf::readString: can't reserve size = ", endPos + 1);
+    //AHTTP_LOGDEBUG1("xbuf::readString: can't reserve size = ", endPos + 1);
     ///////
       
     return result;
   }
   
   // KH, to remove
-    AHTTP_LOGDEBUG1("xbuf::readString: Reserved size = ", endPos + 1);
-    ///////
+  //AHTTP_LOGDEBUG1("xbuf::readString: Reserved size = ", endPos + 1);
+  ///////
   
   if (endPos > _used) 
   {
@@ -382,10 +381,14 @@ void xbuf::addSeg()
     _tail->next = (xseg*) new uint32_t[_segSize / 4 + 1];
     
     if (_tail->next == NULL)
-      AHTTP_LOGERROR("xbuf::addSeg: error new 1");
-    
-    // KH, Must check NULL here
-    _tail = _tail->next;
+    {
+      AHTTP_LOGERROR(F("xbuf::addSeg: error new 1"));
+    }  
+    else  
+    {
+      // KH, Must check NULL here
+      _tail = _tail->next;
+    }
   }
   else 
   {
@@ -393,7 +396,7 @@ void xbuf::addSeg()
     _tail = _head = (xseg*) new uint32_t[_segSize / 4 + 1];
     
     if (_tail == NULL)
-      AHTTP_LOGERROR("xbuf::addSeg: error new 2");
+      AHTTP_LOGERROR(F("xbuf::addSeg: error new 2"));
   }
   
   // KH, Must check NULL here
@@ -780,43 +783,116 @@ int AsyncHTTPRequest::responseHTTPcode()
 }
 
 //**************************************************************************************************************
+String AsyncHTTPRequest::responseHTTPString()
+{
+	switch(_HTTPcode)
+	{
+		case 0: 						
+		  return F("OK");
+		case HTTPCODE_CONNECTION_REFUSED: 
+		  return F("CONNECTION_REFUSED");
+		case HTTPCODE_SEND_HEADER_FAILED: 
+		  return F("SEND_HEADER_FAILED");
+		case HTTPCODE_SEND_PAYLOAD_FAILED: 
+		  return F("SEND_PAYLOAD_FAILED");
+		case HTTPCODE_NOT_CONNECTED: 
+		  return F("NOT_CONNECTED");
+		case HTTPCODE_CONNECTION_LOST: 
+		  return F("CONNECTION_LOST");
+		case HTTPCODE_NO_STREAM: 
+		  return F("NO_STREAM");
+		case HTTPCODE_NO_HTTP_SERVER: 
+		  return F("NO_HTTP_SERVER");
+		case HTTPCODE_TOO_LESS_RAM: 
+		  return F("TOO_LESS_RAM");
+		case HTTPCODE_ENCODING: 
+		  return F("ENCODING");
+		case HTTPCODE_STREAM_WRITE: 
+		  return F("STREAM_WRITE");
+		case HTTPCODE_TIMEOUT: 
+		  return F("TIMEOUT");
+		  
+		// HTTP positive code  
+		case 100: return F("Continue");
+    case 101: return F("Switching Protocols");
+    case 200: return F("HTTP OK");
+    case 201: return F("Created");
+    case 202: return F("Accepted");
+    case 203: return F("Non-Authoritative Information");
+    case 204: return F("No Content");
+    case 205: return F("Reset Content");
+    case 206: return F("Partial Content");
+    case 300: return F("Multiple Choices");
+    case 301: return F("Moved Permanently");
+    case 302: return F("Found");
+    case 303: return F("See Other");
+    case 304: return F("Not Modified");
+    case 305: return F("Use Proxy");
+    case 307: return F("Temporary Redirect");
+    case 400: return F("Bad Request");
+    case 401: return F("Unauthorized");
+    case 402: return F("Payment Required");
+    case 403: return F("Forbidden");
+    case 404: return F("Not Found");
+    case 405: return F("Method Not Allowed");
+    case 406: return F("Not Acceptable");
+    case 407: return F("Proxy Authentication Required");
+    case 408: return F("Request Time-out");
+    case 409: return F("Conflict");
+    case 410: return F("Gone");
+    case 411: return F("Length Required");
+    case 412: return F("Precondition Failed");
+    case 413: return F("Request Entity Too Large");
+    case 414: return F("Request-URI Too Large");
+    case 415: return F("Unsupported Media Type");
+    case 416: return F("Requested range not satisfiable");
+    case 417: return F("Expectation Failed");
+    case 500: return F("Internal Server Error");
+    case 501: return F("Not Implemented");
+    case 502: return F("Bad Gateway");
+    case 503: return F("Service Unavailable");
+    case 504: return F("Gateway Time-out");
+    case 505: return F("HTTP Version not supported");  
+		default: return "UNKNOWN";
+	}
+}
+
+//**************************************************************************************************************
 String AsyncHTTPRequest::responseText()
 {
-  AHTTP_LOGDEBUG("responseText()");
+  AHTTP_LOGDEBUG(("responseText()"));
 
   MUTEX_LOCK(String())
-  
+
   if ( ! _response || _readyState < readyStateLoading || ! available())
   {
-    AHTTP_LOGDEBUG("responseText() no data");
+    AHTTP_LOGERROR(("responseText() no data"));
 
     _AHTTP_unlock;
-    
+
     return String();
   }
 
-  String localString;
   size_t avail = available();
 
-  if ( ! localString.reserve(avail))
-  {
-    AHTTP_LOGDEBUG("responseText() no buffer");
+  String localString = _response->readString(avail);
 
+  if (localString.length() < avail)
+  {
+    AHTTP_LOGERROR(("!responseText() no buffer"))
     _HTTPcode = HTTPCODE_TOO_LESS_RAM;
     _client->abort();
-    
     _AHTTP_unlock;
-    
+
     return String();
   }
-  
-  localString   = _response->readString(avail);
+
   _contentRead += localString.length();
 
-  AHTTP_LOGDEBUG3("responseText(char)", localString, ", avail =", avail);
+  AHTTP_LOGDEBUG3(("responseText() ="), localString.substring(0, 16), (", size ="), avail);
 
   _AHTTP_unlock;
-  
+
   return localString;
 }
 
@@ -1030,7 +1106,7 @@ bool  AsyncHTTPRequest::_parseURL(const String& url)
 //**************************************************************************************************************
 bool  AsyncHTTPRequest::_connect()
 {
-  AHTTP_LOGDEBUG("Start _connect()");
+  AHTTP_LOGDEBUG("_connect()");
 
   if ( ! _client)
   {
@@ -1076,14 +1152,20 @@ bool  AsyncHTTPRequest::_connect()
 
   if ( ! _client->connected())
   {
+    AHTTP_LOGDEBUG3(F("_client->connecting to"), _URL->host, F(","), _URL->port);
+
     if ( ! _client->connect(_URL->host, _URL->port))
     {
-      AHTTP_LOGDEBUG3("client.connect failed:", _URL->host, ", port =", _URL->port);
+      AHTTP_LOGERROR3(F("client.connect failed:"), _URL->host, F(","), _URL->port);
 
       _HTTPcode = HTTPCODE_NOT_CONNECTED;
       _setReadyState(readyStateDone);
 
       return false;
+    }
+    else
+    {
+      AHTTP_LOGDEBUG3(F("client.connect OK to"), _URL->host, F(","), _URL->port);
     }
   }
   else
@@ -1112,15 +1194,10 @@ bool   AsyncHTTPRequest::_buildRequest()
       return false;
   }
 
-  // New in v1.1.1
   AHTTP_LOGDEBUG1("_HTTPmethod =", _HTTPmethod);
   AHTTP_LOGDEBUG3(_HTTPmethodStringwithSpace[_HTTPmethod], _URL->path, _URL->query, " HTTP/1.1\r\n" );
-  //////
-  
-  // New in v1.1.0
-  _request->write(_HTTPmethodStringwithSpace[_HTTPmethod]);
-  //////
-    
+
+  _request->write(_HTTPmethodStringwithSpace[_HTTPmethod]);   
   _request->write(_URL->path);
   _request->write(_URL->query);
   _request->write(" HTTP/1.1\r\n");
@@ -1158,16 +1235,21 @@ size_t  AsyncHTTPRequest::_send()
 
   AHTTP_LOGDEBUG1("_send(), _request->available =", _request->available());
 
-  if ( ! _client->connected() || ! _client->canSend())
+  if ( ! _client->connected())
   {
-    if (! _client->connected())
-    {
-      AHTTP_LOGDEBUG("*can't send : !_client->connected");
-    }
-    else
-    {
-      AHTTP_LOGDEBUG("*can't send : !_client->canSend");
-    }
+    AHTTP_LOGDEBUG(F("!connected yet"));
+
+    // KH fix bug https://github.com/khoih-prog/AsyncHTTPRequest_Generic/issues/38
+    _HTTPcode = HTTPCODE_NOT_CONNECTED;
+    _setReadyState(readyStateDone);
+
+    ///////////////////////////
+
+    return 0;
+  }
+  else if ( ! _client->canSend())
+  {
+    AHTTP_LOGDEBUG(F("*can't send"));
 
     return 0;
   }
@@ -1179,15 +1261,18 @@ size_t  AsyncHTTPRequest::_send()
     supply = demand;
 
   size_t sent = 0;
-  uint8_t* temp = new uint8_t[100];
+
+  #define MAX_CHUNK_SIZE      100
   
+  uint8_t* temp = new uint8_t[MAX_CHUNK_SIZE];
+
   if (!temp)
     return 0;
 
   while (supply)
   {
-    size_t chunk = supply < 100 ? supply : 100;
-    
+    size_t chunk = supply < MAX_CHUNK_SIZE ? supply : MAX_CHUNK_SIZE;
+
     supply  -= _request->read(temp, chunk);
     sent    += _client->add((char*)temp, chunk);
   }
@@ -1199,7 +1284,7 @@ size_t  AsyncHTTPRequest::_send()
   {
     //delete _request;
     SAFE_DELETE(_request)
-    
+
     _request = nullptr;
   }
 

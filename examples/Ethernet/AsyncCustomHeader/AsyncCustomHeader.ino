@@ -19,8 +19,8 @@
 
 #include "defines.h"
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.2.0"
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1002000
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.3.0"
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1003000
 
 // Select a test server address
 //char GET_ServerAddress[]      = "192.168.2.110/";
@@ -57,24 +57,28 @@ void sendRequest()
   }
 }
 
-void requestCB(void* optParm, AsyncHTTPRequest* request, int readyState)
+void requestCB(void *optParm, AsyncHTTPRequest *request, int readyState)
 {
   (void) optParm;
-  
+
   if (readyState == readyStateDone)
   {
-    Serial.println("\n**************************************");
-    Serial.println(request->responseText());
-    Serial.println("**************************************");
+    AHTTP_LOGWARN(F("\n**************************************"));
+    AHTTP_LOGWARN1(F("Response Code = "), request->responseHTTPString());
 
-    request->setDebug(false);
+    if (request->responseHTTPcode() == 200)
+    {
+      Serial.println(F("\n**************************************"));
+      Serial.println(request->responseText());
+      Serial.println(F("**************************************"));
+    }
   }
 }
 
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial && millis() < 5000);
 
   Serial.print("\nStart AsyncCustomHeader on "); Serial.println(BOARD_NAME);
   Serial.println(PORTENTA_H7_ASYNC_TCP_VERSION);

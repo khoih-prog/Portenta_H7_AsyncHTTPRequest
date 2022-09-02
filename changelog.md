@@ -11,6 +11,7 @@
 ## Table of Contents
 
 * [Changelog](#changelog)
+  * [Releases v1.3.0](#releases-v130)
   * [Releases v1.2.0](#releases-v120)
   * [Releases v1.1.0](#releases-v110)
   * [Initial Releases v1.0.0](#Initial-Releases-v100)
@@ -19,6 +20,13 @@
 ---
 
 ## Changelog
+
+### Releases v1.3.0
+
+1. Fix long timeout if using `IPAddress`
+2. Optimize code
+3. Display only successful responseText in examples
+4. Improve debug messages by adding functions to display error messages instead of `cryptic error number`
 
 ### Releases v1.2.0
 

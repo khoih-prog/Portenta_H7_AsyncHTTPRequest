@@ -31,7 +31,7 @@
 
 // Use from 0 to 4. Higher number, more debugging messages and memory usage.
 #define _PORTENTA_H7_ATCP_LOGLEVEL_             1
-#define _ASYNC_HTTP_LOGLEVEL_                   1
+#define _ASYNC_HTTP_LOGLEVEL_                   2
 
 
 #include <Portenta_Ethernet.h>
