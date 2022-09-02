@@ -565,9 +565,9 @@ You can also change the debugging level from 0 to 4
 
 ### Troubleshooting
 
-If you get compilation errors, more often than not, you may need to install a newer version of the `ESP32 / ESP8266 / STM32` core for Arduino.
+If you get compilation errors, more often than not, you may need to install a newer version of the `mbed_portenta` core for Arduino.
 
-Sometimes, the library will only work if you update the `ESP32 / ESP8266 / STM32` core to the latest version because I am using newly added functions.
+Sometimes, the library will only work if you update the `mbed_portenta` core to the latest version because I am using newly added functions.
 
 ---
 
