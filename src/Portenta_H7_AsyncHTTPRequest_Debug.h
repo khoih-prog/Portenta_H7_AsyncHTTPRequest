@@ -15,9 +15,10 @@
   as published bythe Free Software Foundation, either version 3 of the License, or (at your option) any later version.
   This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-  You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.  
+  You should have received a copy of the GNU General Public License along with this program.
+  If not, see <https://www.gnu.org/licenses/>.  
  
-  Version: 1.3.0
+  Version: 1.3.1
   
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -25,6 +26,7 @@
   1.1.0    K Hoang     30/12/2021 Fix `multiple-definitions` linker error
   1.2.0    K Hoang     24/01/2022 Enable compatibility with old code to include only AsyncHTTPRequest_Generic.h
   1.3.0    K Hoang     02/09/2022 Fix bug. Improve debug messages. Optimize code
+  1.3.1    K Hoang     18/10/2022 Not try to reconnect to the same host:port after connected
  *****************************************************************************************************************************/
 
 #pragma once

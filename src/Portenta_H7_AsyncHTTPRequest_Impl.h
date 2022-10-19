@@ -15,9 +15,10 @@
   as published bythe Free Software Foundation, either version 3 of the License, or (at your option) any later version.
   This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-  You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.  
+  You should have received a copy of the GNU General Public License along with this program.
+  If not, see <https://www.gnu.org/licenses/>.  
  
-  Version: 1.3.0
+  Version: 1.3.1
   
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -25,6 +26,7 @@
   1.1.0    K Hoang     30/12/2021 Fix `multiple-definitions` linker error
   1.2.0    K Hoang     24/01/2022 Enable compatibility with old code to include only AsyncHTTPRequest_Generic.h
   1.3.0    K Hoang     02/09/2022 Fix bug. Improve debug messages. Optimize code
+  1.3.1    K Hoang     18/10/2022 Not try to reconnect to the same host:port after connected
  *****************************************************************************************************************************/
  
 #pragma once
@@ -382,7 +384,7 @@ void xbuf::addSeg()
     
     if (_tail->next == NULL)
     {
-      AHTTP_LOGERROR(F("xbuf::addSeg: error new 1"));
+      AHTTP_LOGDEBUG(F("xbuf::addSeg: error new 1"));
     }  
     else  
     {
@@ -396,7 +398,7 @@ void xbuf::addSeg()
     _tail = _head = (xseg*) new uint32_t[_segSize / 4 + 1];
     
     if (_tail == NULL)
-      AHTTP_LOGERROR(F("xbuf::addSeg: error new 2"));
+      AHTTP_LOGDEBUG(F("xbuf::addSeg: error new 2"));
   }
   
   // KH, Must check NULL here
@@ -543,11 +545,24 @@ bool  AsyncHTTPRequest::open(const char* method, const char* URL)
     return false;
   }
   
-  if ( _client && _client->connected() && (strcmp(_URL->host, _connectedHost) != 0 || _URL->port != _connectedPort))
+  if ( _client && _client->connected() )
   {
-    AHTTP_LOGDEBUG("open: not connected");
+    if ( (strcmp(_URL->host, _connectedHost) == 0) && (_URL->port == _connectedPort) )
+    {
+      AHTTP_LOGINFO(F("open: already connected"));
+      
+      _lastActivity = millis();
     
-    return false;
+      _requestReadyToSend = true;
+        
+      return _connect();
+    }
+    else
+    { 
+      AHTTP_LOGINFO(F("open: not connected: different host or port"));
+      
+      return false;
+    }
   }
 
   char* hostName = new char[strlen(_URL->host) + 10];
@@ -601,7 +616,8 @@ bool  AsyncHTTPRequest::send()
   }
   else
   {
-    AHTTP_LOGDEBUG(CANT_SEND_BAD_REQUEST);
+    AHTTP_LOGWARN(CANT_SEND_BAD_REQUEST);
+    
     return false;
   }
   //////
@@ -628,7 +644,8 @@ bool AsyncHTTPRequest::send(const String& body)
   }
   else
   {
-    AHTTP_LOGDEBUG(CANT_SEND_BAD_REQUEST);
+    AHTTP_LOGWARN(CANT_SEND_BAD_REQUEST);
+    
     return false;
   }
   //////
@@ -662,7 +679,8 @@ bool  AsyncHTTPRequest::send(const char* body)
   }
   else
   {
-    AHTTP_LOGDEBUG(CANT_SEND_BAD_REQUEST);
+    AHTTP_LOGWARN(CANT_SEND_BAD_REQUEST);
+    
     return false;
   }
   //////
@@ -696,7 +714,8 @@ bool  AsyncHTTPRequest::send(const uint8_t* body, size_t len)
   }
   else
   {
-    AHTTP_LOGDEBUG(CANT_SEND_BAD_REQUEST);
+    AHTTP_LOGWARN(CANT_SEND_BAD_REQUEST);
+    
     return false;
   }
   //////
@@ -730,7 +749,8 @@ bool AsyncHTTPRequest::send(xbuf* body, size_t len)
   }
   else
   {
-    AHTTP_LOGDEBUG(CANT_SEND_BAD_REQUEST);
+    AHTTP_LOGWARN(CANT_SEND_BAD_REQUEST);
+    
     return false;
   }
   //////
@@ -757,7 +777,7 @@ bool AsyncHTTPRequest::send(xbuf* body, size_t len)
 //**************************************************************************************************************
 void AsyncHTTPRequest::abort()
 {
-  AHTTP_LOGDEBUG("abort()");
+  AHTTP_LOGERROR("abort()");
 
   if (! _client)
   {
@@ -866,7 +886,7 @@ String AsyncHTTPRequest::responseText()
 
   if ( ! _response || _readyState < readyStateLoading || ! available())
   {
-    AHTTP_LOGERROR(("responseText() no data"));
+    AHTTP_LOGWARN(("responseText() no data"));
 
     _AHTTP_unlock;
 
@@ -879,7 +899,7 @@ String AsyncHTTPRequest::responseText()
 
   if (localString.length() < avail)
   {
-    AHTTP_LOGERROR(("!responseText() no buffer"))
+    AHTTP_LOGWARN(("!responseText() no buffer"))
     _HTTPcode = HTTPCODE_TOO_LESS_RAM;
     _client->abort();
     _AHTTP_unlock;
@@ -899,7 +919,7 @@ String AsyncHTTPRequest::responseText()
 //**************************************************************************************************************
 
 
-#define GLOBAL_STR_LEN      (4 * 1024)
+#define GLOBAL_STR_LEN      (16 * 1024)
 
 char globalLongString[GLOBAL_STR_LEN + 1];
 
@@ -1477,9 +1497,11 @@ void  AsyncHTTPRequest::_onDisconnect(AsyncClient* client)
     _HTTPcode = HTTPCODE_CONNECTION_LOST;
   }
 
+  // KH, TODO Check if OK
   SAFE_DELETE(_client)
   
   _client = nullptr;
+  //////
   
   SAFE_DELETE_ARRAY(_connectedHost)
   
@@ -1508,7 +1530,7 @@ void  AsyncHTTPRequest::_onData(void* Vbuf, size_t len)
     _chunks->write((uint8_t*)Vbuf, len);
     
     // KH, to remove
-    AHTTP_LOGDEBUG("_onData: _processChunks");
+    //AHTTP_LOGDEBUG("_onData: _processChunks");
     ///////
     
     _processChunks();
@@ -1526,7 +1548,7 @@ void  AsyncHTTPRequest::_onData(void* Vbuf, size_t len)
       _AHTTP_unlock;
       
       // KH, to remove
-      AHTTP_LOGDEBUG("_onData: headers not complete");
+      //AHTTP_LOGDEBUG("_onData: headers not complete");
       ///////
       
       return;

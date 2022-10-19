@@ -16,8 +16,8 @@
   #error This code is intended to run on the Portenta_H7 platform! Please check your Tools->Board setting.
 #endif
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.3.0"
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1003000
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.3.1"
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1003001
 
 #include "multiFileProject.h"
 

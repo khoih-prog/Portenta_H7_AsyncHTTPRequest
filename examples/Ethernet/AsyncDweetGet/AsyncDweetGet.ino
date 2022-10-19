@@ -30,8 +30,8 @@
 
 #include "defines.h"
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.3.0"
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1003000
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.3.1"
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1003001
 
 // Select a test server address           
 const char GET_ServerAddress[] = "dweet.io";

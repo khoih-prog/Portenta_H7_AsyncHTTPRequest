@@ -43,8 +43,8 @@
 
 #include "defines.h"
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.3.0"
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1003000
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.3.1"
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1003001
 
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include <Portenta_H7_AsyncHTTPRequest.h>         // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
