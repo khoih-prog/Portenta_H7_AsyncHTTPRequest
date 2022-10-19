@@ -36,7 +36,7 @@ If applicable, add screenshots to help explain your problem.
 Please ensure to specify the following:
 
 * Arduino IDE version (e.g. 1.8.19) or Platform.io version
-* `ArduinoCore-mbed` Core Version (e.g. `ArduinoCore-mbed` mbed_portenta core v3.1.1)
+* `ArduinoCore-mbed` Core Version (e.g. `ArduinoCore-mbed` mbed_portenta core v3.3.0)
 * `Portenta_H7` Board type (e.g. Portenta_H7 Rev2 ABX00042, etc.)
 * Contextual information (e.g. what you were trying to achieve)
 * Simplest possible steps to reproduce
@@ -49,13 +49,13 @@ Please ensure to specify the following:
 
 ```
 Arduino IDE version: 1.8.19
-`ArduinoCore-mbed` mbed_portenta core v3.1.1
+`ArduinoCore-mbed` mbed_portenta core v3.3.0
 Portenta_H7 Rev2 ABX00042
 OS: Ubuntu 20.04 LTS
-Linux xy-Inspiron-3593 5.15.0-46-generic #49~20.04.1-Ubuntu SMP Thu Aug 4 19:15:44 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+Linux xy-Inspiron-3593 5.15.0-50-generic #56~20.04.1-Ubuntu SMP Tue Sep 27 15:51:29 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
 
 Context:
-I encountered an endless loop while trying to connect to Local WiFi.
+I encountered a crash when using this library
 
 Steps to reproduce:
 1. ...
