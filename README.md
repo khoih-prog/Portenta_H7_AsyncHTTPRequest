@@ -262,7 +262,7 @@ Please take a look at other examples, as well.
 
 #### 1. File [AsyncHTTPRequest.ino](examples/Ethernet/AsyncHTTPRequest/AsyncHTTPRequest.ino)
 
-https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/010aeaffbb5bfeec4fc8520cf5155ae79c52020c/examples/Ethernet/AsyncHTTPRequest/AsyncHTTPRequest.ino#L44-L174
+https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/6ad432146ddce63a132f0436ff089a63e97e8432/examples/Ethernet/AsyncHTTPRequest/AsyncHTTPRequest.ino#L44-L174
 
 
 ---
@@ -270,7 +270,7 @@ https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/010aeaffbb5bfeec
 #### 2. File [defines.h](examples/Ethernet/AsyncHTTPRequest/defines.h)
 
 
-https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/010aeaffbb5bfeec4fc8520cf5155ae79c52020c/examples/Ethernet/AsyncHTTPRequest/defines.h#L23-L68
+https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/6ad432146ddce63a132f0436ff089a63e97e8432/examples/Ethernet/AsyncHTTPRequest/defines.h#L23-L68
 
 
 ---
@@ -283,7 +283,7 @@ https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/010aeaffbb5bfeec
 ```
 Start AsyncHTTPRequest on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.0
+Portenta_H7_AsyncHTTPRequest v1.4.1
 Using mac index = 15
 Connected! IP address: 192.168.2.101
 Request sent
@@ -331,7 +331,7 @@ week_number: 42
 ```
 Start AsyncDweetPOST on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.0
+Portenta_H7_AsyncHTTPRequest v1.4.1
 Connecting to SSID: HueNet1
 SSID: HueNet1
 Local IP Address: 192.168.2.94
@@ -354,7 +354,7 @@ Actual value: 88
 ```
 Start AsyncWebClientRepeating on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.0
+Portenta_H7_AsyncHTTPRequest v1.4.1
 Connecting to SSID: HueNet1
 SSID: HueNet1
 Local IP Address: 192.168.2.94
@@ -412,7 +412,7 @@ signal strength (RSSI):-26 dBm
 ```
 Start AsyncCustomHeader on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.0
+Portenta_H7_AsyncHTTPRequest v1.4.1
 Using mac index = 15
 Connected! IP address: 192.168.2.87
 
@@ -445,7 +445,7 @@ week_number: 42
 ```
 Start AsyncWebClientRepeating on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.0
+Portenta_H7_AsyncHTTPRequest v1.4.1
 Using mac index = 16
 Connected! IP address: 192.168.2.87
 
@@ -502,7 +502,7 @@ Connected! IP address: 192.168.2.87
 ```
 Start AsyncSimpleGET on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.0
+Portenta_H7_AsyncHTTPRequest v1.4.1
 Using mac index = 7
 Connected! IP address: 192.168.2.87
 
@@ -596,6 +596,8 @@ Submit issues to: [Portenta_H7_AsyncHTTPRequest issues](https://github.com/khoih
  8. Display only successful responseText in examples
  9. Improve debug messages by adding functions to display error messages instead of `cryptic error number`
 10. Not try to reconnect to the same `host:port` after connected
+11. Fix bug of wrong `reqStates`
+
  
 ---
 ---
