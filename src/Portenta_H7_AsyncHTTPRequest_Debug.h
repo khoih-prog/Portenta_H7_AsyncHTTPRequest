@@ -18,7 +18,7 @@
   You should have received a copy of the GNU General Public License along with this program.
   If not, see <https://www.gnu.org/licenses/>.  
  
-  Version: 1.3.1
+  Version: 1.4.0
   
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -27,6 +27,7 @@
   1.2.0    K Hoang     24/01/2022 Enable compatibility with old code to include only AsyncHTTPRequest_Generic.h
   1.3.0    K Hoang     02/09/2022 Fix bug. Improve debug messages. Optimize code
   1.3.1    K Hoang     18/10/2022 Not try to reconnect to the same host:port after connected
+  1.4.0    K Hoang     20/10/2022 Fix bug. Clean up
  *****************************************************************************************************************************/
 
 #pragma once
@@ -34,11 +35,15 @@
 #ifndef PORTENTA_H7_ASYNC_HTTP_REQUEST_DEBUG_H
 #define PORTENTA_H7_ASYNC_HTTP_REQUEST_DEBUG_H
 
+////////////////////////////////////////
+
 #ifdef PORTENTA_H7_ASYNC_HTTP_DEBUG_PORT
   #define A_DBG_PORT      PORTENTA_H7_ASYNC_HTTP_DEBUG_PORT
 #else
   #define A_DBG_PORT      Serial
 #endif
+
+////////////////////////////////////////
 
 // Change _ASYNC_HTTP_LOGLEVEL_ to set tracing and logging verbosity
 // 0: DISABLED: no logging
@@ -51,7 +56,7 @@
   #define _ASYNC_HTTP_LOGLEVEL_       1
 #endif
 
-/////////////////////////////////////////////////////////
+////////////////////////////////////////
 
 const char AHTTP_MARK[] = "[AHTTP] ";
 
@@ -61,7 +66,7 @@ const char AHTTP_MARK[] = "[AHTTP] ";
 #define AHTTP_PRINT        A_DBG_PORT.print
 #define AHTTP_PRINTLN      A_DBG_PORT.println
 
-/////////////////////////////////////////////////////////
+////////////////////////////////////////
 
 #define AHTTP_LOGERROR(x)         if(_ASYNC_HTTP_LOGLEVEL_>0) { AHTTP_PRINT_MARK; AHTTP_PRINTLN(x); }
 #define AHTTP_LOGERROR0(x)        if(_ASYNC_HTTP_LOGLEVEL_>0) { AHTTP_PRINT(x); }
@@ -69,7 +74,7 @@ const char AHTTP_MARK[] = "[AHTTP] ";
 #define AHTTP_LOGERROR2(x,y,z)    if(_ASYNC_HTTP_LOGLEVEL_>0) { AHTTP_PRINT_MARK; AHTTP_PRINT(x); AHTTP_PRINT_SP; AHTTP_PRINT(y); AHTTP_PRINT_SP; AHTTP_PRINTLN(z); }
 #define AHTTP_LOGERROR3(x,y,z,w)  if(_ASYNC_HTTP_LOGLEVEL_>0) { AHTTP_PRINT_MARK; AHTTP_PRINT(x); AHTTP_PRINT_SP; AHTTP_PRINT(y); AHTTP_PRINT_SP; AHTTP_PRINT(z); AHTTP_PRINT_SP; AHTTP_PRINTLN(w); }
 
-/////////////////////////////////////////////////////////
+////////////////////////////////////////
 
 #define AHTTP_LOGWARN(x)          if(_ASYNC_HTTP_LOGLEVEL_>1) { AHTTP_PRINT_MARK; AHTTP_PRINTLN(x); }
 #define AHTTP_LOGWARN0(x)         if(_ASYNC_HTTP_LOGLEVEL_>1) { AHTTP_PRINT(x); }
@@ -77,7 +82,7 @@ const char AHTTP_MARK[] = "[AHTTP] ";
 #define AHTTP_LOGWARN2(x,y,z)     if(_ASYNC_HTTP_LOGLEVEL_>1) { AHTTP_PRINT_MARK; AHTTP_PRINT(x); AHTTP_PRINT_SP; AHTTP_PRINT(y); AHTTP_PRINT_SP; AHTTP_PRINTLN(z); }
 #define AHTTP_LOGWARN3(x,y,z,w)   if(_ASYNC_HTTP_LOGLEVEL_>1) { AHTTP_PRINT_MARK; AHTTP_PRINT(x); AHTTP_PRINT_SP; AHTTP_PRINT(y); AHTTP_PRINT_SP; AHTTP_PRINT(z); AHTTP_PRINT_SP; AHTTP_PRINTLN(w); }
 
-/////////////////////////////////////////////////////////
+////////////////////////////////////////
 
 #define AHTTP_LOGINFO(x)          if(_ASYNC_HTTP_LOGLEVEL_>2) { AHTTP_PRINT_MARK; AHTTP_PRINTLN(x); }
 #define AHTTP_LOGINFO0(x)         if(_ASYNC_HTTP_LOGLEVEL_>2) { AHTTP_PRINT(x); }
@@ -85,7 +90,7 @@ const char AHTTP_MARK[] = "[AHTTP] ";
 #define AHTTP_LOGINFO2(x,y,z)     if(_ASYNC_HTTP_LOGLEVEL_>2) { AHTTP_PRINT_MARK; AHTTP_PRINT(x); AHTTP_PRINT_SP; AHTTP_PRINT(y); AHTTP_PRINT_SP; AHTTP_PRINTLN(z); }
 #define AHTTP_LOGINFO3(x,y,z,w)   if(_ASYNC_HTTP_LOGLEVEL_>2) { AHTTP_PRINT_MARK; AHTTP_PRINT(x); AHTTP_PRINT_SP; AHTTP_PRINT(y); AHTTP_PRINT_SP; AHTTP_PRINT(z); AHTTP_PRINT_SP; AHTTP_PRINTLN(w); }
 
-/////////////////////////////////////////////////////////
+////////////////////////////////////////
 
 #define AHTTP_LOGDEBUG(x)         if(_ASYNC_HTTP_LOGLEVEL_>3) { AHTTP_PRINT_MARK; AHTTP_PRINTLN(x); }
 #define AHTTP_LOGDEBUG0(x)        if(_ASYNC_HTTP_LOGLEVEL_>3) { AHTTP_PRINT(x); }
@@ -93,7 +98,7 @@ const char AHTTP_MARK[] = "[AHTTP] ";
 #define AHTTP_LOGDEBUG2(x,y,z)    if(_ASYNC_HTTP_LOGLEVEL_>3) { AHTTP_PRINT_MARK; AHTTP_PRINT(x); AHTTP_PRINT_SP; AHTTP_PRINT(y); AHTTP_PRINT_SP; AHTTP_PRINTLN(z); }
 #define AHTTP_LOGDEBUG3(x,y,z,w)  if(_ASYNC_HTTP_LOGLEVEL_>3) { AHTTP_PRINT_MARK; AHTTP_PRINT(x); AHTTP_PRINT_SP; AHTTP_PRINT(y); AHTTP_PRINT_SP; AHTTP_PRINT(z); AHTTP_PRINT_SP; AHTTP_PRINTLN(w); }
 
-/////////////////////////////////////////////////////////
+////////////////////////////////////////
 
 #endif    // PORTENTA_H7_ASYNC_HTTP_REQUEST_DEBUG_H
 

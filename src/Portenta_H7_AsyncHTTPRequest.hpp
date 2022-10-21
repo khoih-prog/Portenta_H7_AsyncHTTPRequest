@@ -18,7 +18,7 @@
   You should have received a copy of the GNU General Public License along with this program.
   If not, see <https://www.gnu.org/licenses/>.  
  
-  Version: 1.3.1
+  Version: 1.4.0
   
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -27,6 +27,7 @@
   1.2.0    K Hoang     24/01/2022 Enable compatibility with old code to include only AsyncHTTPRequest_Generic.h
   1.3.0    K Hoang     02/09/2022 Fix bug. Improve debug messages. Optimize code
   1.3.1    K Hoang     18/10/2022 Not try to reconnect to the same host:port after connected
+  1.4.0    K Hoang     20/10/2022 Fix bug. Clean up
  *****************************************************************************************************************************/
 
 #pragma once
@@ -34,9 +35,13 @@
 #ifndef PORTENTA_H7_ASYNC_HTTP_REQUEST_HPP
 #define PORTENTA_H7_ASYNC_HTTP_REQUEST_HPP
 
+////////////////////////////////////////
+
 #if !( defined(ARDUINO_PORTENTA_H7_M7) || defined(ARDUINO_PORTENTA_H7_M4) )
   #error For Portenta_H7 only   
 #endif
+
+////////////////////////////////////////
 
 #include <Arduino.h>
 
@@ -61,22 +66,30 @@
   #define SHIELD_TYPE           "Portenta_H7 WiFi"
 #endif
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION            "Portenta_H7_AsyncHTTPRequest v1.3.1"
+////////////////////////////////////////
+
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION            "Portenta_H7_AsyncHTTPRequest v1.4.0"
 
 #define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MAJOR      1
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MINOR      3
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_PATCH      1
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MINOR      4
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_PATCH      0
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT        1003001
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT        1004000
+
+////////////////////////////////////////
 
 #include "Portenta_H7_AsyncTCP.h"
 
 #include "Portenta_H7_AsyncHTTPRequest_Debug.h"
 
+////////////////////////////////////////
+
 #define MUTEX_LOCK_NR
 #define MUTEX_LOCK(returnVal)
 #define _AHTTP_lock
 #define _AHTTP_unlock
+
+////////////////////////////////////////
 
 #ifndef DEBUG_IOTA_PORT
   #define DEBUG_IOTA_PORT Serial
@@ -88,20 +101,32 @@
   #define DEBUG_IOTA_HTTP_SET     false
 #endif
 
+////////////////////////////////////////
+
 // KH add
 #define SAFE_DELETE(object)         if (object) { delete object;}
 #define SAFE_DELETE_ARRAY(object)   if (object) { delete[] object;}
 
+#define ASYNC_HTTP_PREFIX         "HTTP://"
+#define ASYNC_HTTP_PORT           80
+
+#define ASYNC_HTTPS_PREFIX        "HTTPS://"
+#define ASYNC_HTTPS_PORT          443
+
+////////////////////////////////////////
+
 #include <avr/pgmspace.h>
 
 // Merge xbuf
-////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////
 
 struct xseg 
 {
   xseg    *next;
   uint8_t data[];
 };
+
+////////////////////////////////////////
 
 class xbuf: public Print 
 {
@@ -151,7 +176,7 @@ class xbuf: public Print
     
     String      peekString(int);
 
-    /*      In addition to the above functions,
+    /* In addition to the above functions,
     the following inherited functions from the Print class are available.
     
     size_t printf(const char * format, ...)  __attribute__ ((format (printf, 2, 3)));
@@ -196,13 +221,15 @@ class xbuf: public Print
 
 };
 
-////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////
 
 #define DEBUG_HTTP(format,...)  if(_debug){\
     DEBUG_IOTA_PORT.printf("Debug(%3ld): ", millis()-_requestStartTime);\
     DEBUG_IOTA_PORT.printf_P(PSTR(format),##__VA_ARGS__);}
 
 #define DEFAULT_RX_TIMEOUT 3                    // Seconds for timeout
+
+////////////////////////////////////////
 
 #define HTTPCODE_CONNECTION_REFUSED  (-1)
 #define HTTPCODE_SEND_HEADER_FAILED  (-2)
@@ -216,6 +243,8 @@ class xbuf: public Print
 #define HTTPCODE_STREAM_WRITE        (-10)
 #define HTTPCODE_TIMEOUT             (-11)
 
+////////////////////////////////////////
+
 typedef enum
 {
   readyStateUnsent      = 0,            // Client created, open not yet called
@@ -224,62 +253,67 @@ typedef enum
   readyStateLoading     = 3,            // receiving, partial data available
   readyStateDone        = 4             // Request complete, all data available.
 } reqStates;
-    
+
+////////////////////////////////////////
+ 
 class AsyncHTTPRequest
 {
-    struct header
+  struct header
+  {
+    header*   next;
+    char*     name;
+    char*     value;
+    
+    header(): next(nullptr), name(nullptr), value(nullptr)
+    {};
+    
+    ~header() 
     {
-      header*   next;
-      char*     name;
-      char*     value;
-      
-      header(): next(nullptr), name(nullptr), value(nullptr)
-      {};
-      
-      ~header() 
-      {
-        SAFE_DELETE_ARRAY(name)
-        SAFE_DELETE_ARRAY(value)
-        SAFE_DELETE(next)
-        //delete[] name;
-        //delete[] value;
-        //delete next;
-      }
-    };
+      SAFE_DELETE_ARRAY(name)
+      SAFE_DELETE_ARRAY(value)
+      SAFE_DELETE(next)
+      //delete[] name;
+      //delete[] value;
+      //delete next;
+    }
+  };
 
-    struct  URL 
+  struct  URL 
+  {
+    char 		*buffer;
+    char 		*scheme;
+    char 		*host;
+    int 		port;
+    char 		*path;
+    char 		*query;
+    
+    URL():	buffer(nullptr), scheme(nullptr), host(nullptr),
+      			port(80), path(nullptr), query(nullptr)
+    {};
+      
+    ~URL()
     {
-      char 		*buffer;
-      char 		*scheme;
-      char 		*host;
-      int 		port;
-      char 		*path;
-      char 		*query;
-      
-      URL():	buffer(nullptr), scheme(nullptr), host(nullptr),
-        			port(80), path(nullptr), query(nullptr)
-      {};
-        
-      ~URL()
-      {
-        SAFE_DELETE_ARRAY(buffer)
-        SAFE_DELETE_ARRAY(scheme)
-        SAFE_DELETE_ARRAY(host)
-        SAFE_DELETE_ARRAY(path)
-        SAFE_DELETE_ARRAY(query)
-      }
-    };
+      SAFE_DELETE_ARRAY(buffer)
+      SAFE_DELETE_ARRAY(scheme)
+      SAFE_DELETE_ARRAY(host)
+      SAFE_DELETE_ARRAY(path)
+      SAFE_DELETE_ARRAY(query)
+    }
+  };
 
-    typedef std::function<void(void*, AsyncHTTPRequest*, int readyState)> readyStateChangeCB;
-    typedef std::function<void(void*, AsyncHTTPRequest*, size_t available)> onDataCB;
+  typedef std::function<void(void*, AsyncHTTPRequest*, int readyState)> readyStateChangeCB;
+  typedef std::function<void(void*, AsyncHTTPRequest*, size_t available)> onDataCB;
+
+  ////////////////////////////////////////
 
   public:
     AsyncHTTPRequest();
     ~AsyncHTTPRequest();
 
 
-    //External functions in typical order of use:
-    //__________________________________________________________________________________________________________*/
+    //External functions in typical order of use:  
+    ////////////////////////////////////////
+
     void        setDebug(bool);                                         // Turn debug message on/off
     bool        debug();                                                // is debug on or off?
 
@@ -321,19 +355,27 @@ class AsyncHTTPRequest
     size_t      responseRead(uint8_t* buffer, size_t len);              // Read response into buffer
     uint32_t    elapsedTime();                                          // Elapsed time of in progress transaction or last completed (ms)
     String      version();                                              // Version of AsyncHTTPRequest
-    //___________________________________________________________________________________________________________________________________
+    
+    ////////////////////////////////////////
 
   private:
 
     bool _requestReadyToSend;
-    //////
     
-    typedef enum  { HTTPmethodGET, HTTPmethodPOST, HTTPmethodPUT, HTTPmethodPATCH, HTTPmethodDELETE, HTTPmethodHEAD, HTTPmethodMAX } HTTPmethod;
+    typedef enum  
+    { 
+      HTTPmethodGET, 
+      HTTPmethodPOST, 
+      HTTPmethodPUT, 
+      HTTPmethodPATCH, 
+      HTTPmethodDELETE, 
+      HTTPmethodHEAD, 
+      HTTPmethodMAX 
+    } HTTPmethod;
     
     HTTPmethod _HTTPmethod;
     
     const char* _HTTPmethodStringwithSpace[HTTPmethodMAX] = {"GET ", "POST ", "PUT ", "PATCH ", "DELETE ", "HEAD "};
-    //////
     
     reqStates       _readyState;
 
@@ -384,5 +426,7 @@ class AsyncHTTPRequest
     void        _onPoll(AsyncClient*);
     bool        _collectHeaders();
 };
+    
+////////////////////////////////////////
 
 #endif    // PORTENTA_H7_ASYNC_HTTP_REQUEST_HPP
