@@ -18,7 +18,7 @@
   You should have received a copy of the GNU General Public License along with this program.
   If not, see <https://www.gnu.org/licenses/>.  
  
-  Version: 1.4.0
+  Version: 1.4.1
   
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -28,6 +28,7 @@
   1.3.0    K Hoang     02/09/2022 Fix bug. Improve debug messages. Optimize code
   1.3.1    K Hoang     18/10/2022 Not try to reconnect to the same host:port after connected
   1.4.0    K Hoang     20/10/2022 Fix bug. Clean up
+  1.4.1    K Hoang     22/10/2022 Fix bug of wrong reqStates
  *****************************************************************************************************************************/
 
 #pragma once
@@ -68,13 +69,13 @@
 
 ////////////////////////////////////////
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION            "Portenta_H7_AsyncHTTPRequest v1.4.0"
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION            "Portenta_H7_AsyncHTTPRequest v1.4.1"
 
 #define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MAJOR      1
 #define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MINOR      4
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_PATCH      0
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_PATCH      1
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT        1004000
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT        1004001
 
 ////////////////////////////////////////
 
@@ -227,7 +228,9 @@ class xbuf: public Print
     DEBUG_IOTA_PORT.printf("Debug(%3ld): ", millis()-_requestStartTime);\
     DEBUG_IOTA_PORT.printf_P(PSTR(format),##__VA_ARGS__);}
 
-#define DEFAULT_RX_TIMEOUT 3                    // Seconds for timeout
+#if !defined(DEFAULT_RX_TIMEOUT)
+  #define DEFAULT_RX_TIMEOUT         3          // Seconds for timeout
+#endif
 
 ////////////////////////////////////////
 
@@ -272,23 +275,20 @@ class AsyncHTTPRequest
       SAFE_DELETE_ARRAY(name)
       SAFE_DELETE_ARRAY(value)
       SAFE_DELETE(next)
-      //delete[] name;
-      //delete[] value;
-      //delete next;
     }
   };
 
   struct  URL 
   {
-    char 		*buffer;
-    char 		*scheme;
-    char 		*host;
-    int 		port;
-    char 		*path;
-    char 		*query;
+    char     *buffer;
+    char    *scheme;
+    char    *host;
+    int     port;
+    char    *path;
+    char    *query;
     
-    URL():	buffer(nullptr), scheme(nullptr), host(nullptr),
-      			port(80), path(nullptr), query(nullptr)
+    URL():  buffer(nullptr), scheme(nullptr), host(nullptr),
+            port(80), path(nullptr), query(nullptr)
     {};
       
     ~URL()
@@ -310,7 +310,6 @@ class AsyncHTTPRequest
     AsyncHTTPRequest();
     ~AsyncHTTPRequest();
 
-
     //External functions in typical order of use:  
     ////////////////////////////////////////
 
@@ -319,7 +318,6 @@ class AsyncHTTPRequest
 
     bool        open(const char* /*GET/POST*/, const char* URL);        // Initiate a request
     void        onReadyStateChange(readyStateChangeCB, void* arg = 0);  // Optional event handler for ready state change
-    // or you can simply poll readyState()
     void        setTimeout(int);                                        // overide default timeout (seconds)
 
     void        setReqHeader(const char* name, const char* value);      // add a request header
@@ -353,7 +351,7 @@ class AsyncHTTPRequest
     char*       responseLongText();                                     // response long (whole* or partial* as string)
     
     size_t      responseRead(uint8_t* buffer, size_t len);              // Read response into buffer
-    uint32_t    elapsedTime();                                          // Elapsed time of in progress transaction or last completed (ms)
+    uint32_t    elapsedTime();                                          // Elapsed time of transaction or last completed (ms)
     String      version();                                              // Version of AsyncHTTPRequest
     
     ////////////////////////////////////////

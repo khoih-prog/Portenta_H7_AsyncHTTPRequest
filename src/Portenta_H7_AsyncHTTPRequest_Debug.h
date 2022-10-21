@@ -18,7 +18,7 @@
   You should have received a copy of the GNU General Public License along with this program.
   If not, see <https://www.gnu.org/licenses/>.  
  
-  Version: 1.4.0
+  Version: 1.4.1
   
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -28,6 +28,7 @@
   1.3.0    K Hoang     02/09/2022 Fix bug. Improve debug messages. Optimize code
   1.3.1    K Hoang     18/10/2022 Not try to reconnect to the same host:port after connected
   1.4.0    K Hoang     20/10/2022 Fix bug. Clean up
+  1.4.1    K Hoang     22/10/2022 Fix bug of wrong reqStates
  *****************************************************************************************************************************/
 
 #pragma once

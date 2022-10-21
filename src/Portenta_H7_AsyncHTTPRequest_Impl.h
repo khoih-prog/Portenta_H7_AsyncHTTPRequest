@@ -18,7 +18,7 @@
   You should have received a copy of the GNU General Public License along with this program.
   If not, see <https://www.gnu.org/licenses/>.  
  
-  Version: 1.4.0
+  Version: 1.4.1
   
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -28,6 +28,7 @@
   1.3.0    K Hoang     02/09/2022 Fix bug. Improve debug messages. Optimize code
   1.3.1    K Hoang     18/10/2022 Not try to reconnect to the same host:port after connected
   1.4.0    K Hoang     20/10/2022 Fix bug. Clean up
+  1.4.1    K Hoang     22/10/2022 Fix bug of wrong reqStates
  *****************************************************************************************************************************/
  
 #pragma once
@@ -157,6 +158,7 @@ size_t xbuf::read(uint8_t* buf, const size_t len)
     size_t supply = (_offset + _used) > _segSize ? _segSize - _offset : _used;
     size_t demand = len - read;
     size_t chunk = supply < demand ? supply : demand;
+    
     memcpy(buf + read, _head->data + _offset, chunk);
     _offset += chunk;
     _used -= chunk;
@@ -388,32 +390,32 @@ void xbuf::flush()
 
 ////////////////////////////////////////
 
-void xbuf::addSeg() 
+void xbuf::addSeg()
 {
-  if (_tail) 
+  if (_tail)
   {
     _tail->next = (xseg*) new uint32_t[_segSize / 4 + 1];
-    
+
     if (_tail->next == NULL)
     {
-      AHTTP_LOGERROR(F("xbuf::addSeg: NULL next"));
-    }  
-    else  
+      AHTTP_LOGERROR(("xbuf::addSeg: NULL next"));
+    }
+    else
     {
       _tail = _tail->next;
     }
   }
-  else 
+  else
   {
     _tail = _head = (xseg*) new uint32_t[_segSize / 4 + 1];
-    
+
     if (_tail == NULL)
-      AHTTP_LOGERROR(F("xbuf::addSeg: NULL tail"));
+      AHTTP_LOGERROR(("xbuf::addSeg: NULL tail"));
   }
-  
+
   if (_tail)
     _tail->next = nullptr;
-    
+
   _free += _segSize;
 }
 
@@ -453,7 +455,6 @@ AsyncHTTPRequest::~AsyncHTTPRequest()
 {
   if (_client)
     _client->close(true);
-
 
   SAFE_DELETE(_URL)
   SAFE_DELETE(_headers)
@@ -791,35 +792,35 @@ int AsyncHTTPRequest::responseHTTPcode()
 
 String AsyncHTTPRequest::responseHTTPString()
 {
-	switch(_HTTPcode)
-	{
-		case 0: 						
-		  return F("OK");
-		case HTTPCODE_CONNECTION_REFUSED: 
-		  return F("CONNECTION_REFUSED");
-		case HTTPCODE_SEND_HEADER_FAILED: 
-		  return F("SEND_HEADER_FAILED");
-		case HTTPCODE_SEND_PAYLOAD_FAILED: 
-		  return F("SEND_PAYLOAD_FAILED");
-		case HTTPCODE_NOT_CONNECTED: 
-		  return F("NOT_CONNECTED");
-		case HTTPCODE_CONNECTION_LOST: 
-		  return F("CONNECTION_LOST");
-		case HTTPCODE_NO_STREAM: 
-		  return F("NO_STREAM");
-		case HTTPCODE_NO_HTTP_SERVER: 
-		  return F("NO_HTTP_SERVER");
-		case HTTPCODE_TOO_LESS_RAM: 
-		  return F("TOO_LESS_RAM");
-		case HTTPCODE_ENCODING: 
-		  return F("ENCODING");
-		case HTTPCODE_STREAM_WRITE: 
-		  return F("STREAM_WRITE");
-		case HTTPCODE_TIMEOUT: 
-		  return F("TIMEOUT");
-		  
-		// HTTP positive code  
-		case 100: return F("Continue");
+  switch(_HTTPcode)
+  {
+    case 0:             
+      return F("OK");
+    case HTTPCODE_CONNECTION_REFUSED: 
+      return F("CONNECTION_REFUSED");
+    case HTTPCODE_SEND_HEADER_FAILED: 
+      return F("SEND_HEADER_FAILED");
+    case HTTPCODE_SEND_PAYLOAD_FAILED: 
+      return F("SEND_PAYLOAD_FAILED");
+    case HTTPCODE_NOT_CONNECTED: 
+      return F("NOT_CONNECTED");
+    case HTTPCODE_CONNECTION_LOST: 
+      return F("CONNECTION_LOST");
+    case HTTPCODE_NO_STREAM: 
+      return F("NO_STREAM");
+    case HTTPCODE_NO_HTTP_SERVER: 
+      return F("NO_HTTP_SERVER");
+    case HTTPCODE_TOO_LESS_RAM: 
+      return F("TOO_LESS_RAM");
+    case HTTPCODE_ENCODING: 
+      return F("ENCODING");
+    case HTTPCODE_STREAM_WRITE: 
+      return F("STREAM_WRITE");
+    case HTTPCODE_TIMEOUT: 
+      return F("TIMEOUT");
+      
+    // HTTP positive code  
+    case 100: return F("Continue");
     case 101: return F("Switching Protocols");
     case 200: return F("HTTP OK");
     case 201: return F("Created");
@@ -859,8 +860,8 @@ String AsyncHTTPRequest::responseHTTPString()
     case 503: return F("Service Unavailable");
     case 504: return F("Gateway Time-out");
     case 505: return F("HTTP Version not supported");  
-		default:  return "UNKNOWN";
-	}
+    default:  return "UNKNOWN";
+  }
 }
 
 ////////////////////////////////////////
@@ -1227,12 +1228,9 @@ size_t  AsyncHTTPRequest::_send()
     return 0;
 
   if ( ! _client->connected())
-  {
+  {   
     // KH fix bug https://github.com/khoih-prog/AsyncHTTPRequest_Generic/issues/38
-    _HTTPcode = HTTPCODE_NOT_CONNECTED;
-    _setReadyState(readyStateDone);
-
-    ///////////////////////////
+    _timeout = DEFAULT_RX_TIMEOUT;
 
     return 0;
   }

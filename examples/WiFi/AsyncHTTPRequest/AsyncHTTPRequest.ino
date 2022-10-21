@@ -43,8 +43,11 @@
 
 #include "defines.h"
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.4.0"
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1004000
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.4.1"
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN             1004001
+
+// Seconds for timeout, default is 3s
+#define DEFAULT_RX_TIMEOUT           10  
 
 // To be included only in main(), .ino with setup() to avoid `Multiple Definitions` Linker Error
 #include <Portenta_H7_AsyncHTTPRequest.h>         // https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
