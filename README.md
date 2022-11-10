@@ -7,6 +7,7 @@
 
 <a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
 <a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
+<a href="https://profile-counter.glitch.me/khoih-prog-Portenta-H7-AsyncHTTPRequest/count.svg"  title="Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog-Portenta-H7-AsyncHTTPRequest/count.svg" style="height: 30px;width: 200px;"></a>
 
 ---
 ---
@@ -120,7 +121,7 @@ This library is based on, modified from:
 1. **Portenta_H7 boards** such as Portenta_H7 Rev2 ABX00042, etc., using [**ArduinoCore-mbed mbed_portenta** core](https://github.com/arduino/ArduinoCore-mbed) using `Vision-shield Ethernet` or `Murata WiFi`
 
 <p align="center">
-    <img src="https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/main/pics/Portenta_Vision.jpg">
+    <img src="https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/raw/main/pics/Portenta_Vision.jpg">
 </p>
 
 
@@ -262,7 +263,7 @@ Please take a look at other examples, as well.
 
 #### 1. File [AsyncHTTPRequest.ino](examples/Ethernet/AsyncHTTPRequest/AsyncHTTPRequest.ino)
 
-https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/6ad432146ddce63a132f0436ff089a63e97e8432/examples/Ethernet/AsyncHTTPRequest/AsyncHTTPRequest.ino#L44-L174
+https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/13c9304d5d4fbbfb54e8f7fef981dd8f68ce9994/examples/Ethernet/AsyncHTTPRequest/AsyncHTTPRequest.ino#L44-L184
 
 
 ---
@@ -270,7 +271,7 @@ https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/6ad432146ddce63a
 #### 2. File [defines.h](examples/Ethernet/AsyncHTTPRequest/defines.h)
 
 
-https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/6ad432146ddce63a132f0436ff089a63e97e8432/examples/Ethernet/AsyncHTTPRequest/defines.h#L23-L68
+https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/13c9304d5d4fbbfb54e8f7fef981dd8f68ce9994/examples/Ethernet/AsyncHTTPRequest/defines.h#L23-L68
 
 
 ---
@@ -283,44 +284,44 @@ https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/6ad432146ddce63a
 ```
 Start AsyncHTTPRequest on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.1
+Portenta_H7_AsyncHTTPRequest v1.4.2
 Using mac index = 15
 Connected! IP address: 192.168.2.101
 Request sent
 **************************************
-abbreviation: EDT
+abbreviation: EST
 client_ip: aaa.bbb.ccc.ddd
-datetime: 2022-10-20T23:04:21.101705-04:00
+datetime: 2022-11-10T14:03:19.073880-05:00
 day_of_week: 4
-day_of_year: 293
-dst: true
-dst_from: 2022-03-13T07:00:00+00:00
-dst_offset: 3600
-dst_until: 2022-11-06T06:00:00+00:00
+day_of_year: 314
+dst: false
+dst_from: 
+dst_offset: 0
+dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1666321461
-utc_datetime: 2022-10-21T03:04:21.101705+00:00
-utc_offset: -04:00
-week_number: 42
+unixtime: 1668106999
+utc_datetime: 2022-11-10T19:03:19.073880+00:00
+utc_offset: -05:00
+week_number: 45
 **************************************
 
 **************************************
-abbreviation: EDT
+abbreviation: EST
 client_ip: aaa.bbb.ccc.ddd
-datetime: 2022-10-20T23:05:21.101861-04:00
+datetime: 2022-11-10T14:03:29.094926-05:00
 day_of_week: 4
-day_of_year: 293
-dst: true
-dst_from: 2022-03-13T07:00:00+00:00
-dst_offset: 3600
-dst_until: 2022-11-06T06:00:00+00:00
+day_of_year: 314
+dst: false
+dst_from: 
+dst_offset: 0
+dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1666321521
-utc_datetime: 2022-10-21T03:05:21.101861+00:00
-utc_offset: -04:00
-week_number: 42
+unixtime: 1668107009
+utc_datetime: 2022-11-10T19:03:29.094926+00:00
+utc_offset: -05:00
+week_number: 45
 **************************************
 ```
 
@@ -331,7 +332,7 @@ week_number: 42
 ```
 Start AsyncDweetPOST on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.1
+Portenta_H7_AsyncHTTPRequest v1.4.2
 Connecting to SSID: HueNet1
 SSID: HueNet1
 Local IP Address: 192.168.2.94
@@ -354,7 +355,7 @@ Actual value: 88
 ```
 Start AsyncWebClientRepeating on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.1
+Portenta_H7_AsyncHTTPRequest v1.4.2
 Connecting to SSID: HueNet1
 SSID: HueNet1
 Local IP Address: 192.168.2.94
@@ -412,28 +413,28 @@ signal strength (RSSI):-26 dBm
 ```
 Start AsyncCustomHeader on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.1
+Portenta_H7_AsyncHTTPRequest v1.4.2
 Using mac index = 15
 Connected! IP address: 192.168.2.87
 
 Sending GET Request to http://worldtimeapi.org/api/timezone/America/Toronto.txt
 
 **************************************
-abbreviation: EDT
+abbreviation: EST
 client_ip: aaa.bbb.ccc.ddd
-datetime: 2022-10-20T23:08:21.131690-04:00
+datetime: 2022-11-10T14:03:39.083413-05:00
 day_of_week: 4
-day_of_year: 293
-dst: true
-dst_from: 2022-03-13T07:00:00+00:00
-dst_offset: 3600
-dst_until: 2022-11-06T06:00:00+00:00
+day_of_year: 314
+dst: false
+dst_from: 
+dst_offset: 0
+dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1666321701
-utc_datetime: 2022-10-21T03:08:21.131690+00:00
-utc_offset: -04:00
-week_number: 42
+unixtime: 1668107019
+utc_datetime: 2022-11-10T19:03:39.083413+00:00
+utc_offset: -05:00
+week_number: 45
 **************************************
 ```
 
@@ -445,7 +446,7 @@ week_number: 42
 ```
 Start AsyncWebClientRepeating on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.1
+Portenta_H7_AsyncHTTPRequest v1.4.2
 Using mac index = 16
 Connected! IP address: 192.168.2.87
 
@@ -502,45 +503,45 @@ Connected! IP address: 192.168.2.87
 ```
 Start AsyncSimpleGET on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.1
+Portenta_H7_AsyncHTTPRequest v1.4.2
 Using mac index = 7
 Connected! IP address: 192.168.2.87
 
 **************************************
-abbreviation: EDT
+abbreviation: EST
 client_ip: aaa.bbb.ccc.ddd
-datetime: 2022-10-20T23:09:21.132613-04:00
+datetime: 2022-11-10T14:03:39.083413-05:00
 day_of_week: 4
-day_of_year: 293
-dst: true
-dst_from: 2022-03-13T07:00:00+00:00
-dst_offset: 3600
-dst_until: 2022-11-06T06:00:00+00:00
+day_of_year: 314
+dst: false
+dst_from: 
+dst_offset: 0
+dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1666321761
-utc_datetime: 2022-10-21T03:09:21.132613+00:00
-utc_offset: -04:00
-week_number: 42
+unixtime: 1668107019
+utc_datetime: 2022-11-10T19:03:39.083413+00:00
+utc_offset: -05:00
+week_number: 45
 **************************************
 
 **************************************
-abbreviation: EDT
+abbreviation: EST
 client_ip: aaa.bbb.ccc.ddd
-datetime: 2022-10-20T23:10:21.133081-04:00
+datetime: 2022-11-10T14:03:49.122480-05:00
 day_of_week: 4
-day_of_year: 293
-dst: true
-dst_from: 2022-03-13T07:00:00+00:00
-dst_offset: 3600
-dst_until: 2022-11-06T06:00:00+00:00
+day_of_year: 314
+dst: false
+dst_from: 
+dst_offset: 0
+dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1666321821
-utc_datetime: 2022-10-21T03:10:21.133081+00:00
-utc_offset: -04:00
-week_number: 42
-**************************************
+unixtime: 1668107029
+utc_datetime: 2022-11-10T19:03:49.122480+00:00
+utc_offset: -05:00
+week_number: 45
+************************************
 ```
 
 
@@ -597,6 +598,8 @@ Submit issues to: [Portenta_H7_AsyncHTTPRequest issues](https://github.com/khoih
  9. Improve debug messages by adding functions to display error messages instead of `cryptic error number`
 10. Not try to reconnect to the same `host:port` after connected
 11. Fix bug of wrong `reqStates`
+12. Default to reconnect to the same `host:port` after connected for new HTTP sites.
+13. Use `allman astyle` and add `utils`
 
  
 ---
@@ -629,7 +632,7 @@ If you want to contribute to this project:
 
 ### License and credits ###
 
-- The library is licensed under [GPLv3](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/master/LICENSE)
+- The library is licensed under [GPLv3](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/main/LICENSE)
 
 ---
 
