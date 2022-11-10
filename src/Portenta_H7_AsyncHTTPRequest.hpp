@@ -18,7 +18,7 @@
   You should have received a copy of the GNU General Public License along with this program.
   If not, see <https://www.gnu.org/licenses/>.  
  
-  Version: 1.4.1
+  Version: 1.4.2
   
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
@@ -29,6 +29,7 @@
   1.3.1    K Hoang     18/10/2022 Not try to reconnect to the same host:port after connected
   1.4.0    K Hoang     20/10/2022 Fix bug. Clean up
   1.4.1    K Hoang     22/10/2022 Fix bug of wrong reqStates
+  1.4.2    K Hoang     10/11/2022 Default to reconnect to the same host:port after connected for new HTTP sites
  *****************************************************************************************************************************/
 
 #pragma once
@@ -69,19 +70,26 @@
 
 ////////////////////////////////////////
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION            "Portenta_H7_AsyncHTTPRequest v1.4.1"
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION            "Portenta_H7_AsyncHTTPRequest v1.4.2"
 
 #define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MAJOR      1
 #define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MINOR      4
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_PATCH      1
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_PATCH      2
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT        1004001
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT        1004002
 
 ////////////////////////////////////////
 
 #include "Portenta_H7_AsyncTCP.h"
 
 #include "Portenta_H7_AsyncHTTPRequest_Debug.h"
+
+////////////////////////////////////////
+
+#if !defined(NOT_SEND_HEADER_AFTER_CONNECTED)
+	// Default is false
+	#define NOT_SEND_HEADER_AFTER_CONNECTED				false
+#endif
 
 ////////////////////////////////////////
 
