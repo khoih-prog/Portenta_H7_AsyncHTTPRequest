@@ -277,7 +277,7 @@ https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/13c9304d5d4fbbfb
 ---
 ---
 
-### Debug Terminal Ouput Samples
+### Debug Terminal Output Samples
 
 #### 1. [AsyncHTTPRequest](examples/WiFi/AsyncHTTPRequest) running on PORTENTA_H7_M7 WiFi 
 
