@@ -43,173 +43,173 @@ AsyncHTTPRequest request;
 
 void sendRequest()
 {
-	static bool requestOpenResult;
+  static bool requestOpenResult;
 
-	if (request.readyState() == readyStateUnsent || request.readyState() == readyStateDone)
-	{
-		String postData = "sensorValue=";
-		postData += analogRead(A0);
+  if (request.readyState() == readyStateUnsent || request.readyState() == readyStateDone)
+  {
+    String postData = "sensorValue=";
+    postData += analogRead(A0);
 
-		Serial.println("\nMaking new POST request");
+    Serial.println("\nMaking new POST request");
 
-		requestOpenResult = request.open("POST", (POST_ServerAddress + dweetName + postData).c_str() );
+    requestOpenResult = request.open("POST", (POST_ServerAddress + dweetName + postData).c_str() );
 
-		if (requestOpenResult)
-		{
-			// Only send() if open() returns true, or crash
-			request.send();
-		}
-		else
-		{
-			Serial.println("Can't send bad request");
-		}
-	}
-	else
-	{
-		Serial.println("Can't send request");
-	}
+    if (requestOpenResult)
+    {
+      // Only send() if open() returns true, or crash
+      request.send();
+    }
+    else
+    {
+      Serial.println("Can't send bad request");
+    }
+  }
+  else
+  {
+    Serial.println("Can't send request");
+  }
 }
 
 void parseResponse(String responseText)
 {
-	/*
-	  Typical response is:
-	  {"this":"succeeded",
-	  "by":"getting",
-	  "the":"dweets",
-	  "with":[{"thing":"my-thing-name",
-	    "created":"2016-02-16T05:10:36.589Z",
-	    "content":{"sensorValue":456}}]}
+  /*
+    Typical response is:
+    {"this":"succeeded",
+    "by":"getting",
+    "the":"dweets",
+    "with":[{"thing":"my-thing-name",
+      "created":"2016-02-16T05:10:36.589Z",
+      "content":{"sensorValue":456}}]}
 
-	  You want "content": numberValue
-	*/
-	// now parse the response looking for "content":
-	int labelStart = responseText.indexOf("content\":");
-	// find the first { after "content":
-	int contentStart = responseText.indexOf("{", labelStart);
-	// find the following } and get what's between the braces:
-	int contentEnd = responseText.indexOf("}", labelStart);
-	String content = responseText.substring(contentStart + 1, contentEnd);
+    You want "content": numberValue
+  */
+  // now parse the response looking for "content":
+  int labelStart = responseText.indexOf("content\":");
+  // find the first { after "content":
+  int contentStart = responseText.indexOf("{", labelStart);
+  // find the following } and get what's between the braces:
+  int contentEnd = responseText.indexOf("}", labelStart);
+  String content = responseText.substring(contentStart + 1, contentEnd);
 
-	Serial.println(content);
+  Serial.println(content);
 
-	// now get the value after the colon, and convert to an int:
-	int valueStart = content.indexOf(":");
-	String valueString = content.substring(valueStart + 1);
-	int number = valueString.toInt();
+  // now get the value after the colon, and convert to an int:
+  int valueStart = content.indexOf(":");
+  String valueString = content.substring(valueStart + 1);
+  int number = valueString.toInt();
 
-	Serial.print("Value string: ");
-	Serial.println(valueString);
-	Serial.print("Actual value: ");
-	Serial.println(number);
+  Serial.print("Value string: ");
+  Serial.println(valueString);
+  Serial.print("Actual value: ");
+  Serial.println(number);
 }
 
 void requestCB(void* optParm, AsyncHTTPRequest* request, int readyState)
 {
-	(void) optParm;
+  (void) optParm;
 
-	if (readyState == readyStateDone)
-	{
-		Serial.println();
-		AHTTP_LOGWARN(F("\n**************************************"));
-		AHTTP_LOGWARN1(F("Response Code = "), request->responseHTTPString());
+  if (readyState == readyStateDone)
+  {
+    Serial.println();
+    AHTTP_LOGWARN(F("\n**************************************"));
+    AHTTP_LOGWARN1(F("Response Code = "), request->responseHTTPString());
 
-		if (request->responseHTTPcode() == 200)
-		{
-			String responseText = request->responseText();
+    if (request->responseHTTPcode() == 200)
+    {
+      String responseText = request->responseText();
 
-			Serial.println("\n**************************************");
-			//Serial.println(request->responseText());
-			Serial.println(responseText);
-			Serial.println("**************************************");
+      Serial.println("\n**************************************");
+      //Serial.println(request->responseText());
+      Serial.println(responseText);
+      Serial.println("**************************************");
 
-			parseResponse(responseText);
+      parseResponse(responseText);
 
-			request->setDebug(false);
-		}
-		else
-		{
-			AHTTP_LOGERROR(F("Response error"));
-		}
-	}
+      request->setDebug(false);
+    }
+    else
+    {
+      AHTTP_LOGERROR(F("Response error"));
+    }
+  }
 }
 
 void setup()
 {
-	Serial.begin(115200);
+  Serial.begin(115200);
 
-	while (!Serial && millis() < 5000);
+  while (!Serial && millis() < 5000);
 
-	Serial.print("\nStart AsyncDweetPOST on ");
-	Serial.println(BOARD_NAME);
-	Serial.println(PORTENTA_H7_ASYNC_TCP_VERSION);
-	Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION);
+  Serial.print("\nStart AsyncDweetPOST on ");
+  Serial.println(BOARD_NAME);
+  Serial.println(PORTENTA_H7_ASYNC_TCP_VERSION);
+  Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION);
 
 #if defined(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN)
 
-	if (PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT < PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN)
-	{
-		Serial.print("Warning. Must use this example on Version equal or later than : ");
-		Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET);
-	}
+  if (PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT < PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN)
+  {
+    Serial.print("Warning. Must use this example on Version equal or later than : ");
+    Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET);
+  }
 
 #endif
 
-	///////////////////////////////////
+  ///////////////////////////////////
 
-	// start the ethernet connection and the server
-	// Use random mac
-	uint16_t index = millis() % NUMBER_OF_MAC;
+  // start the ethernet connection and the server
+  // Use random mac
+  uint16_t index = millis() % NUMBER_OF_MAC;
 
-	// Use Static IP
-	//Ethernet.begin(mac[index], ip);
-	// Use DHCP dynamic IP and random mac
-	Ethernet.begin(mac[index]);
+  // Use Static IP
+  //Ethernet.begin(mac[index], ip);
+  // Use DHCP dynamic IP and random mac
+  Ethernet.begin(mac[index]);
 
-	if (Ethernet.hardwareStatus() == EthernetNoHardware)
-	{
-		Serial.println("No Ethernet found. Stay here forever");
+  if (Ethernet.hardwareStatus() == EthernetNoHardware)
+  {
+    Serial.println("No Ethernet found. Stay here forever");
 
-		while (true)
-		{
-			delay(1); // do nothing, no point running without Ethernet hardware
-		}
-	}
+    while (true)
+    {
+      delay(1); // do nothing, no point running without Ethernet hardware
+    }
+  }
 
-	if (Ethernet.linkStatus() == LinkOFF)
-	{
-		Serial.println("Not connected Ethernet cable");
-	}
+  if (Ethernet.linkStatus() == LinkOFF)
+  {
+    Serial.println("Not connected Ethernet cable");
+  }
 
-	Serial.print(F("Using mac index = "));
-	Serial.println(index);
+  Serial.print(F("Using mac index = "));
+  Serial.println(index);
 
-	Serial.print(F("Connected! IP address: "));
-	Serial.println(Ethernet.localIP());
+  Serial.print(F("Connected! IP address: "));
+  Serial.println(Ethernet.localIP());
 
-	///////////////////////////////////
+  ///////////////////////////////////
 
-	request.setDebug(false);
+  request.setDebug(false);
 
-	request.onReadyStateChange(requestCB);
+  request.onReadyStateChange(requestCB);
 }
 
 void sendRequestRepeat()
 {
-	static unsigned long sendRequest_timeout = 0;
+  static unsigned long sendRequest_timeout = 0;
 
 #define SEND_REQUEST_INTERVAL     60000L
 
-	// sendRequest every SEND_REQUEST_INTERVAL (60) seconds: we don't need to sendRequest frequently
-	if ((millis() > sendRequest_timeout) || (sendRequest_timeout == 0))
-	{
-		sendRequest();
+  // sendRequest every SEND_REQUEST_INTERVAL (60) seconds: we don't need to sendRequest frequently
+  if ((millis() > sendRequest_timeout) || (sendRequest_timeout == 0))
+  {
+    sendRequest();
 
-		sendRequest_timeout = millis() + SEND_REQUEST_INTERVAL;
-	}
+    sendRequest_timeout = millis() + SEND_REQUEST_INTERVAL;
+  }
 }
 
 void loop()
 {
-	sendRequestRepeat();
+  sendRequestRepeat();
 }

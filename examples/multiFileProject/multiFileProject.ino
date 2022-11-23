@@ -13,7 +13,7 @@
 // To demo how to include files in multi-file Projects
 
 #if !( defined(ARDUINO_PORTENTA_H7_M7) || defined(ARDUINO_PORTENTA_H7_M4) )
-	#error This code is intended to run on the Portenta_H7 platform! Please check your Tools->Board setting.
+  #error This code is intended to run on the Portenta_H7 platform! Please check your Tools->Board setting.
 #endif
 
 #define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET      "Portenta_H7_AsyncHTTPRequest v1.4.2"
@@ -29,25 +29,25 @@
 
 void setup()
 {
-	Serial.begin(115200);
+  Serial.begin(115200);
 
-	while (!Serial && millis() < 5000);
+  while (!Serial && millis() < 5000);
 
-	Serial.println("\nStart multiFileProject");
-	Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION);
+  Serial.println("\nStart multiFileProject");
+  Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION);
 
 #if defined(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN)
 
-	if (PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT < PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN)
-	{
-		Serial.print("Warning. Must use this example on Version equal or later than : ");
-		Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET);
-	}
+  if (PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT < PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN)
+  {
+    Serial.print("Warning. Must use this example on Version equal or later than : ");
+    Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET);
+  }
 
 #endif
 }
 
 void loop()
 {
-	// put your main code here, to run repeatedly:
+  // put your main code here, to run repeatedly:
 }

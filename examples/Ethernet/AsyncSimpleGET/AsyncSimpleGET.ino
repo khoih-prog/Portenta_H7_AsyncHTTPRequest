@@ -38,122 +38,122 @@ AsyncHTTPRequest request;
 
 void sendRequest()
 {
-	static bool requestOpenResult;
+  static bool requestOpenResult;
 
-	if (request.readyState() == readyStateUnsent || request.readyState() == readyStateDone)
-	{
-		requestOpenResult = request.open("GET", GET_ServerAddress);
+  if (request.readyState() == readyStateUnsent || request.readyState() == readyStateDone)
+  {
+    requestOpenResult = request.open("GET", GET_ServerAddress);
 
-		if (requestOpenResult)
-		{
-			// Only send() if open() returns true, or crash
-			request.send();
-		}
-		else
-		{
-			Serial.println("Can't send bad request");
-		}
-	}
-	else
-	{
-		Serial.println("Can't send request");
-	}
+    if (requestOpenResult)
+    {
+      // Only send() if open() returns true, or crash
+      request.send();
+    }
+    else
+    {
+      Serial.println("Can't send bad request");
+    }
+  }
+  else
+  {
+    Serial.println("Can't send request");
+  }
 }
 
 void requestCB(void *optParm, AsyncHTTPRequest *request, int readyState)
 {
-	(void) optParm;
+  (void) optParm;
 
-	if (readyState == readyStateDone)
-	{
-		AHTTP_LOGWARN(F("\n**************************************"));
-		AHTTP_LOGWARN1(F("Response Code = "), request->responseHTTPString());
+  if (readyState == readyStateDone)
+  {
+    AHTTP_LOGWARN(F("\n**************************************"));
+    AHTTP_LOGWARN1(F("Response Code = "), request->responseHTTPString());
 
-		if (request->responseHTTPcode() == 200)
-		{
-			Serial.println(F("\n**************************************"));
-			Serial.println(request->responseText());
-			Serial.println(F("**************************************"));
-		}
-	}
+    if (request->responseHTTPcode() == 200)
+    {
+      Serial.println(F("\n**************************************"));
+      Serial.println(request->responseText());
+      Serial.println(F("**************************************"));
+    }
+  }
 }
 
 void setup()
 {
-	Serial.begin(115200);
+  Serial.begin(115200);
 
-	while (!Serial && millis() < 5000);
+  while (!Serial && millis() < 5000);
 
-	Serial.print("\nStart AsyncSimpleGET on ");
-	Serial.println(BOARD_NAME);
-	Serial.println(PORTENTA_H7_ASYNC_TCP_VERSION);
-	Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION);
+  Serial.print("\nStart AsyncSimpleGET on ");
+  Serial.println(BOARD_NAME);
+  Serial.println(PORTENTA_H7_ASYNC_TCP_VERSION);
+  Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION);
 
 #if defined(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN)
 
-	if (PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT < PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN)
-	{
-		Serial.print("Warning. Must use this example on Version equal or later than : ");
-		Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET);
-	}
+  if (PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT < PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN)
+  {
+    Serial.print("Warning. Must use this example on Version equal or later than : ");
+    Serial.println(PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MIN_TARGET);
+  }
 
 #endif
 
-	///////////////////////////////////
+  ///////////////////////////////////
 
-	// start the ethernet connection and the server
-	// Use random mac
-	uint16_t index = millis() % NUMBER_OF_MAC;
+  // start the ethernet connection and the server
+  // Use random mac
+  uint16_t index = millis() % NUMBER_OF_MAC;
 
-	// Use Static IP
-	//Ethernet.begin(mac[index], ip);
-	// Use DHCP dynamic IP and random mac
-	Ethernet.begin(mac[index]);
+  // Use Static IP
+  //Ethernet.begin(mac[index], ip);
+  // Use DHCP dynamic IP and random mac
+  Ethernet.begin(mac[index]);
 
-	if (Ethernet.hardwareStatus() == EthernetNoHardware)
-	{
-		Serial.println("No Ethernet found. Stay here forever");
+  if (Ethernet.hardwareStatus() == EthernetNoHardware)
+  {
+    Serial.println("No Ethernet found. Stay here forever");
 
-		while (true)
-		{
-			delay(1); // do nothing, no point running without Ethernet hardware
-		}
-	}
+    while (true)
+    {
+      delay(1); // do nothing, no point running without Ethernet hardware
+    }
+  }
 
-	if (Ethernet.linkStatus() == LinkOFF)
-	{
-		Serial.println("Not connected Ethernet cable");
-	}
+  if (Ethernet.linkStatus() == LinkOFF)
+  {
+    Serial.println("Not connected Ethernet cable");
+  }
 
-	Serial.print(F("Using mac index = "));
-	Serial.println(index);
+  Serial.print(F("Using mac index = "));
+  Serial.println(index);
 
-	Serial.print(F("Connected! IP address: "));
-	Serial.println(Ethernet.localIP());
+  Serial.print(F("Connected! IP address: "));
+  Serial.println(Ethernet.localIP());
 
-	///////////////////////////////////
+  ///////////////////////////////////
 
-	request.setDebug(false);
+  request.setDebug(false);
 
-	request.onReadyStateChange(requestCB);
+  request.onReadyStateChange(requestCB);
 }
 
 void sendRequestRepeat()
 {
-	static unsigned long sendRequest_timeout = 0;
+  static unsigned long sendRequest_timeout = 0;
 
 #define SEND_REQUEST_INTERVAL     60000L
 
-	// sendRequest every SEND_REQUEST_INTERVAL (60) seconds: we don't need to sendRequest frequently
-	if ((millis() > sendRequest_timeout) || (sendRequest_timeout == 0))
-	{
-		sendRequest();
+  // sendRequest every SEND_REQUEST_INTERVAL (60) seconds: we don't need to sendRequest frequently
+  if ((millis() > sendRequest_timeout) || (sendRequest_timeout == 0))
+  {
+    sendRequest();
 
-		sendRequest_timeout = millis() + SEND_REQUEST_INTERVAL;
-	}
+    sendRequest_timeout = millis() + SEND_REQUEST_INTERVAL;
+  }
 }
 
 void loop()
 {
-	sendRequestRepeat();
+  sendRequestRepeat();
 }

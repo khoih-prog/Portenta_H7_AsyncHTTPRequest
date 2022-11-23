@@ -24,7 +24,7 @@
 #define defines_h
 
 #if !( defined(ARDUINO_PORTENTA_H7_M7) || defined(ARDUINO_PORTENTA_H7_M4) )
-	#error For Portenta_H7 only
+  #error For Portenta_H7 only
 #endif
 
 #define PORTENTA_H7_ASYNC_HTTP_DEBUG_PORT       Serial

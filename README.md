@@ -1,13 +1,15 @@
-# Portenta_H7_AsyncHTTPRequest
+# Portenta_H7_AsyncHTTPRequest Library
 
 [![arduino-library-badge](https://www.ardu-badge.com/badge/Portenta_H7_AsyncHTTPRequest.svg?)](https://www.ardu-badge.com/Portenta_H7_AsyncHTTPRequest)
 [![GitHub release](https://img.shields.io/github/release/khoih-prog/Portenta_H7_AsyncHTTPRequest.svg)](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/releases)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](#Contributing)
 [![GitHub issues](https://img.shields.io/github/issues/khoih-prog/Portenta_H7_AsyncHTTPRequest.svg)](http://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/issues)
 
+
 <a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
 <a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
-<a href="https://profile-counter.glitch.me/khoih-prog-Portenta-H7-AsyncHTTPRequest/count.svg"  title="Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog-Portenta-H7-AsyncHTTPRequest/count.svg" style="height: 30px;width: 200px;"></a>
+<a href="https://profile-counter.glitch.me/khoih-prog/count.svg" title="Total khoih-prog Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog/count.svg" style="height: 30px;width: 200px;"></a>
+<a href="https://profile-counter.glitch.me/khoih-prog-Portenta_H7_AsyncHTTPRequest/count.svg" title="Portenta_H7_AsyncHTTPRequest Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog-Portenta_H7_AsyncHTTPRequest/count.svg" style="height: 30px;width: 200px;"></a>
 
 ---
 ---
@@ -145,9 +147,9 @@ The best and easiest way is to use `Arduino Library Manager`. Search for `Porten
 ### Manual Install
 
 1. Navigate to [Portenta_H7_AsyncHTTPRequest](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest) page.
-2. Download the latest release `Portenta_H7_AsyncHTTPRequest-master.zip`.
-3. Extract the zip file to `Portenta_H7_AsyncHTTPRequest-master` directory 
-4. Copy the whole `Portenta_H7_AsyncHTTPRequest-master` folder to Arduino libraries' directory such as `~/Arduino/libraries/`.
+2. Download the latest release `Portenta_H7_AsyncHTTPRequest-main.zip`.
+3. Extract the zip file to `Portenta_H7_AsyncHTTPRequest-main` directory 
+4. Copy the whole `Portenta_H7_AsyncHTTPRequest-main` folder to Arduino libraries' directory such as `~/Arduino/libraries/`.
 
 ### VS Code & PlatformIO
 
@@ -281,7 +283,7 @@ https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/13c9304d5d4fbbfb
 
 #### 1. [AsyncHTTPRequest](examples/WiFi/AsyncHTTPRequest) running on PORTENTA_H7_M7 WiFi 
 
-```
+```cpp
 Start AsyncHTTPRequest on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
 Portenta_H7_AsyncHTTPRequest v1.4.2
@@ -329,7 +331,7 @@ week_number: 45
 
 #### 2. [AsyncDweetPOST](examples/WiFi/AsyncDweetPOST) running on PORTENTA_H7_M7 WiFi 
 
-```
+```cpp
 Start AsyncDweetPOST on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
 Portenta_H7_AsyncHTTPRequest v1.4.2
@@ -352,7 +354,7 @@ Actual value: 88
 
 #### 3. [AsyncWebClientRepeating](examples/WiFi/AsyncWebClientRepeating) running on PORTENTA_H7_M7 WiFi
 
-```
+```cpp
 Start AsyncWebClientRepeating on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
 Portenta_H7_AsyncHTTPRequest v1.4.2
@@ -410,7 +412,7 @@ signal strength (RSSI):-26 dBm
 
 #### 4. [AsyncCustomHeader](examples/Ethernet/AsyncCustomHeader) running on PORTENTA_H7_M7 Ethernet
 
-```
+```cpp
 Start AsyncCustomHeader on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
 Portenta_H7_AsyncHTTPRequest v1.4.2
@@ -443,7 +445,7 @@ week_number: 45
 #### 5. [AsyncWebClientRepeating](examples/Ethernet/AsyncWebClientRepeating) running on PORTENTA_H7_M7 Ethernet
 
 
-```
+```cpp
 Start AsyncWebClientRepeating on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
 Portenta_H7_AsyncHTTPRequest v1.4.2
@@ -500,7 +502,7 @@ Connected! IP address: 192.168.2.87
 #### 6. [AsyncSimpleGET](examples/Ethernet/AsyncSimpleGET) running on PORTENTA_H7_M7 Ethernet
 
 
-```
+```cpp
 Start AsyncSimpleGET on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
 Portenta_H7_AsyncHTTPRequest v1.4.2
@@ -640,7 +642,7 @@ If you want to contribute to this project:
 
 Copyright (C) <2018>  <Bob Lemaire, IoTaWatt, Inc.>
 
-Copyright 2021- Khoi Hoang
+Copyright (C) 2021- Khoi Hoang
 
 
 
