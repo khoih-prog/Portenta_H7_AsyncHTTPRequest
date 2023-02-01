@@ -18,8 +18,8 @@
   You should have received a copy of the GNU General Public License along with this program.
   If not, see <https://www.gnu.org/licenses/>.  
  
-  Version: 1.4.2
-  
+  Version: 1.5.0
+
   Version Modified By   Date      Comments
   ------- -----------  ---------- -----------
   1.0.0    K Hoang     13/10/2020 Initial coding for Portenta_H7
@@ -30,6 +30,7 @@
   1.4.0    K Hoang     20/10/2022 Fix bug. Clean up
   1.4.1    K Hoang     22/10/2022 Fix bug of wrong reqStates
   1.4.2    K Hoang     10/11/2022 Default to reconnect to the same host:port after connected for new HTTP sites
+  1.5.0    K Hoang     01/02/2023 Fix _parseURL() bug
  *****************************************************************************************************************************/
 
 #pragma once
@@ -70,13 +71,13 @@
 
 ////////////////////////////////////////
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION            "Portenta_H7_AsyncHTTPRequest v1.4.2"
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION            "Portenta_H7_AsyncHTTPRequest v1.5.0"
 
 #define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MAJOR      1
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MINOR      4
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_PATCH      2
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_MINOR      5
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_PATCH      0
 
-#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT        1004002
+#define PORTENTA_H7_ASYNC_HTTP_REQUEST_VERSION_INT        1005000
 
 ////////////////////////////////////////
 

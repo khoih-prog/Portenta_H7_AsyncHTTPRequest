@@ -8,8 +8,7 @@
 
 <a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Donate to my libraries using BuyMeACoffee" style="height: 50px !important;width: 181px !important;" ></a>
 <a href="https://www.buymeacoffee.com/khoihprog6" title="Donate to my libraries using BuyMeACoffee"><img src="https://img.shields.io/badge/buy%20me%20a%20coffee-donate-orange.svg?logo=buy-me-a-coffee&logoColor=FFDD00" style="height: 20px !important;width: 200px !important;" ></a>
-<a href="https://profile-counter.glitch.me/khoih-prog/count.svg" title="Total khoih-prog Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog/count.svg" style="height: 30px;width: 200px;"></a>
-<a href="https://profile-counter.glitch.me/khoih-prog-Portenta_H7_AsyncHTTPRequest/count.svg" title="Portenta_H7_AsyncHTTPRequest Visitor count"><img src="https://profile-counter.glitch.me/khoih-prog-Portenta_H7_AsyncHTTPRequest/count.svg" style="height: 30px;width: 200px;"></a>
+
 
 ---
 ---
@@ -34,21 +33,21 @@
 * [HOWTO Fix `Multiple Definitions` Linker Error](#howto-fix-multiple-definitions-linker-error) 
 * [Examples](#examples)
   * [1. For Vision-shield Ethernet](#1-for-Vision-shield-Ethernet)
-    * [1. AsyncHTTPRequest](examples/Ethernet/AsyncHTTPRequest)
-    * [2. AsyncCustomHeader](examples/Ethernet/AsyncCustomHeader)
-    * [3. AsyncDweetGet](examples/Ethernet/AsyncDweetGet)
-    * [4. AsyncDweetPost](examples/Ethernet/AsyncDweetPost)
-    * [5. AsyncSimpleGET](examples/Ethernet/AsyncSimpleGET)
-    * [6. AsyncWebClientRepeating](examples/Ethernet/AsyncWebClientRepeating)
+    * [1. AsyncHTTPRequest](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncHTTPRequest)
+    * [2. AsyncCustomHeader](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncCustomHeader)
+    * [3. AsyncDweetGet](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncDweetGet)
+    * [4. AsyncDweetPost](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncDweetPost)
+    * [5. AsyncSimpleGET](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncSimpleGET)
+    * [6. AsyncWebClientRepeating](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncWebClientRepeating)
   * [2. For Murata WiFi](#2-for-Murata-WiFi)
-    * [1. AsyncHTTPRequest](examples/WiFi/AsyncHTTPRequest)
-    * [2. AsyncCustomHeader](examples/WiFi/AsyncCustomHeader)
-    * [3. AsyncDweetGet](examples/WiFi/AsyncDweetGet)
-    * [4. AsyncDweetPost](examples/WiFi/AsyncDweetPost)
-    * [5. AsyncSimpleGET](examples/WiFi/AsyncSimpleGET)
-    * [6. AsyncWebClientRepeating](examples/WiFi/AsyncWebClientRepeating)
+    * [1. AsyncHTTPRequest](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncHTTPRequest)
+    * [2. AsyncCustomHeader](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncCustomHeader)
+    * [3. AsyncDweetGet](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncDweetGet)
+    * [4. AsyncDweetPost](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncDweetPost)
+    * [5. AsyncSimpleGET](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncSimpleGET)
+    * [6. AsyncWebClientRepeating](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncWebClientRepeating)
   * [3. For Portenta_H7](#3-For-Portenta_H7)
-    * [1. **multiFileProject**](examples/multiFileProject) **New**
+    * [1. **multiFileProject**](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/multiFileProject) **New**
 * [Example AsyncHTTPRequest](#example-asynchttprequest)
   * [1. File AsyncHTTPRequest.ino](#1-file-asynchttprequestino)
   * [2. File defines.h](#2-file-definesh) 
@@ -133,7 +132,7 @@ This library is based on, modified from:
 ## Prerequisites
 
  1. [`Arduino IDE 1.8.19+` for Arduino](https://github.com/arduino/Arduino). [![GitHub release](https://img.shields.io/github/release/arduino/Arduino.svg)](https://github.com/arduino/Arduino/releases/latest)
- 2. [`ArduinoCore-mbed mbed_portenta core 3.4.1+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino **Portenta_H7** boards, such as **Portenta_H7 Rev2 ABX00042, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
+ 2. [`ArduinoCore-mbed mbed_portenta core 3.5.4+`](https://github.com/arduino/ArduinoCore-mbed) for Arduino **Portenta_H7** boards, such as **Portenta_H7 Rev2 ABX00042, etc.**. [![GitHub release](https://img.shields.io/github/release/arduino/ArduinoCore-mbed.svg)](https://github.com/arduino/ArduinoCore-mbed/releases/latest)
  3. [`Portenta_H7_AsyncTCP library v1.4.0+`](https://github.com/khoih-prog/Portenta_H7_AsyncTCP) for Portenta_H7 using `Vision-shield Ethernet` or `Murata WiFi`. To install. check [![arduino-library-badge](https://www.ardu-badge.com/badge/Portenta_H7_AsyncTCP.svg?)](https://www.ardu-badge.com/Portenta_H7_AsyncTCP)
 
 ---
@@ -224,7 +223,7 @@ in many files. But be sure to use the following `.h` file **in just 1 `.h`, `.cp
 #include "Portenta_H7_AsyncHTTPRequest.h"           //https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest
 ```
 
-Check the new [**multiFileProject** example](examples/multiFileProject) for a `HOWTO` demo.
+Check the new [**multiFileProject** example](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/multiFileProject) for a `HOWTO` demo.
 
 Have a look at the discussion in [Different behaviour using the src_cpp or src_h lib #80](https://github.com/khoih-prog/ESPAsync_WiFiManager/discussions/80)
 
@@ -236,41 +235,41 @@ Have a look at the discussion in [Different behaviour using the src_cpp or src_h
 
 #### 1. For Vision-shield Ethernet
 
- 1. [AsyncHTTPRequest](examples/Ethernet/AsyncHTTPRequest)
- 2. [AsyncCustomHeader](examples/Ethernet/AsyncCustomHeader)
- 3. [AsyncDweetGet](examples/Ethernet/AsyncDweetGet)
- 4. [AsyncDweetPost](examples/Ethernet/AsyncDweetPost)
- 5. [AsyncSimpleGET](examples/Ethernet/AsyncSimpleGET)
- 6. [AsyncWebClientRepeating](examples/Ethernet/AsyncWebClientRepeating)
+ 1. [AsyncHTTPRequest](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncHTTPRequest)
+ 2. [AsyncCustomHeader](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncCustomHeader)
+ 3. [AsyncDweetGet](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncDweetGet)
+ 4. [AsyncDweetPost](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncDweetPost)
+ 5. [AsyncSimpleGET](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncSimpleGET)
+ 6. [AsyncWebClientRepeating](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncWebClientRepeating)
 
 #### 2. For Murata WiFi
 
- 1. [AsyncHTTPRequest](examples/WiFi/AsyncHTTPRequest)
- 2. [AsyncCustomHeader](examples/WiFi/AsyncCustomHeader)
- 3. [AsyncDweetGet](examples/WiFi/AsyncDweetGet)
- 4. [AsyncDweetPost](examples/WiFi/AsyncDweetPost)
- 5. [AsyncSimpleGET](examples/WiFi/AsyncSimpleGET)
- 6. [AsyncWebClientRepeating](examples/WiFi/AsyncWebClientRepeating)
+ 1. [AsyncHTTPRequest](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncHTTPRequest)
+ 2. [AsyncCustomHeader](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncCustomHeader)
+ 3. [AsyncDweetGet](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncDweetGet)
+ 4. [AsyncDweetPost](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncDweetPost)
+ 5. [AsyncSimpleGET](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncSimpleGET)
+ 6. [AsyncWebClientRepeating](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncWebClientRepeating)
 
 #### 3. For Portenta_H7
 
- 1. [**multiFileProject**](examples/multiFileProject) **New**
+ 1. [**multiFileProject**](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/multiFileProject) **New**
     
     
 ---
 
-### Example [AsyncHTTPRequest](examples/Ethernet/AsyncHTTPRequest)
+### Example [AsyncHTTPRequest](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncHTTPRequest)
 
 Please take a look at other examples, as well.
 
-#### 1. File [AsyncHTTPRequest.ino](examples/Ethernet/AsyncHTTPRequest/AsyncHTTPRequest.ino)
+#### 1. File [AsyncHTTPRequest.ino](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncHTTPRequest/AsyncHTTPRequest.ino)
 
 https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/13c9304d5d4fbbfb54e8f7fef981dd8f68ce9994/examples/Ethernet/AsyncHTTPRequest/AsyncHTTPRequest.ino#L44-L184
 
 
 ---
 
-#### 2. File [defines.h](examples/Ethernet/AsyncHTTPRequest/defines.h)
+#### 2. File [defines.h](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncHTTPRequest/defines.h)
 
 
 https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/13c9304d5d4fbbfb54e8f7fef981dd8f68ce9994/examples/Ethernet/AsyncHTTPRequest/defines.h#L23-L68
@@ -281,60 +280,60 @@ https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/blob/13c9304d5d4fbbfb
 
 ### Debug Terminal Output Samples
 
-#### 1. [AsyncHTTPRequest](examples/WiFi/AsyncHTTPRequest) running on PORTENTA_H7_M7 WiFi 
+#### 1. [AsyncHTTPRequest](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncHTTPRequest) running on PORTENTA_H7_M7 WiFi 
 
 ```cpp
 Start AsyncHTTPRequest on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.2
+Portenta_H7_AsyncHTTPRequest v1.5.0
 Using mac index = 15
 Connected! IP address: 192.168.2.101
 Request sent
 **************************************
 abbreviation: EST
 client_ip: aaa.bbb.ccc.ddd
-datetime: 2022-11-10T14:03:19.073880-05:00
-day_of_week: 4
-day_of_year: 314
+datetime: 2023-01-31T23:01:30.472515-05:00
+day_of_week: 2
+day_of_year: 31
 dst: false
 dst_from: 
 dst_offset: 0
 dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1668106999
-utc_datetime: 2022-11-10T19:03:19.073880+00:00
+unixtime: 1675224090
+utc_datetime: 2023-02-01T04:01:30.472515+00:00
 utc_offset: -05:00
-week_number: 45
+week_number: 5
 **************************************
 
 **************************************
 abbreviation: EST
 client_ip: aaa.bbb.ccc.ddd
-datetime: 2022-11-10T14:03:29.094926-05:00
-day_of_week: 4
-day_of_year: 314
+datetime: 2023-01-31T23:02:24.463788-05:00
+day_of_week: 2
+day_of_year: 31
 dst: false
 dst_from: 
 dst_offset: 0
 dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1668107009
-utc_datetime: 2022-11-10T19:03:29.094926+00:00
+unixtime: 1675224144
+utc_datetime: 2023-02-01T04:02:24.463788+00:00
 utc_offset: -05:00
-week_number: 45
+week_number: 5
 **************************************
 ```
 
 ---
 
-#### 2. [AsyncDweetPOST](examples/WiFi/AsyncDweetPOST) running on PORTENTA_H7_M7 WiFi 
+#### 2. [AsyncDweetPOST](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncDweetPOST) running on PORTENTA_H7_M7 WiFi 
 
 ```cpp
 Start AsyncDweetPOST on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.2
+Portenta_H7_AsyncHTTPRequest v1.5.0
 Connecting to SSID: HueNet1
 SSID: HueNet1
 Local IP Address: 192.168.2.94
@@ -352,12 +351,12 @@ Actual value: 88
 
 ---
 
-#### 3. [AsyncWebClientRepeating](examples/WiFi/AsyncWebClientRepeating) running on PORTENTA_H7_M7 WiFi
+#### 3. [AsyncWebClientRepeating](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/WiFi/AsyncWebClientRepeating) running on PORTENTA_H7_M7 WiFi
 
 ```cpp
 Start AsyncWebClientRepeating on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.2
+Portenta_H7_AsyncHTTPRequest v1.5.0
 Connecting to SSID: HueNet1
 SSID: HueNet1
 Local IP Address: 192.168.2.94
@@ -410,12 +409,12 @@ signal strength (RSSI):-26 dBm
 
 ---
 
-#### 4. [AsyncCustomHeader](examples/Ethernet/AsyncCustomHeader) running on PORTENTA_H7_M7 Ethernet
+#### 4. [AsyncCustomHeader](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncCustomHeader) running on PORTENTA_H7_M7 Ethernet
 
 ```cpp
 Start AsyncCustomHeader on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.2
+Portenta_H7_AsyncHTTPRequest v1.5.0
 Using mac index = 15
 Connected! IP address: 192.168.2.87
 
@@ -424,31 +423,31 @@ Sending GET Request to http://worldtimeapi.org/api/timezone/America/Toronto.txt
 **************************************
 abbreviation: EST
 client_ip: aaa.bbb.ccc.ddd
-datetime: 2022-11-10T14:03:39.083413-05:00
-day_of_week: 4
-day_of_year: 314
+datetime: 2023-01-31T23:03:24.464007-05:00
+day_of_week: 2
+day_of_year: 31
 dst: false
 dst_from: 
 dst_offset: 0
 dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1668107019
-utc_datetime: 2022-11-10T19:03:39.083413+00:00
+unixtime: 1675224204
+utc_datetime: 2023-02-01T04:03:24.464007+00:00
 utc_offset: -05:00
-week_number: 45
+week_number: 5
 **************************************
 ```
 
 ---
 
-#### 5. [AsyncWebClientRepeating](examples/Ethernet/AsyncWebClientRepeating) running on PORTENTA_H7_M7 Ethernet
+#### 5. [AsyncWebClientRepeating](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncWebClientRepeating) running on PORTENTA_H7_M7 Ethernet
 
 
 ```cpp
 Start AsyncWebClientRepeating on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.2
+Portenta_H7_AsyncHTTPRequest v1.5.0
 Using mac index = 16
 Connected! IP address: 192.168.2.87
 
@@ -499,50 +498,50 @@ Connected! IP address: 192.168.2.87
 
 ---
 
-#### 6. [AsyncSimpleGET](examples/Ethernet/AsyncSimpleGET) running on PORTENTA_H7_M7 Ethernet
+#### 6. [AsyncSimpleGET](https://github.com/khoih-prog/Portenta_H7_AsyncHTTPRequest/tree/main/examples/Ethernet/AsyncSimpleGET) running on PORTENTA_H7_M7 Ethernet
 
 
 ```cpp
 Start AsyncSimpleGET on PORTENTA_H7_M7
 Portenta_H7_AsyncTCP v1.4.0
-Portenta_H7_AsyncHTTPRequest v1.4.2
+Portenta_H7_AsyncHTTPRequest v1.5.0
 Using mac index = 7
 Connected! IP address: 192.168.2.87
 
 **************************************
 abbreviation: EST
 client_ip: aaa.bbb.ccc.ddd
-datetime: 2022-11-10T14:03:39.083413-05:00
-day_of_week: 4
-day_of_year: 314
+datetime: 2023-01-31T23:04:24.464088-05:00
+day_of_week: 2
+day_of_year: 31
 dst: false
 dst_from: 
 dst_offset: 0
 dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1668107019
-utc_datetime: 2022-11-10T19:03:39.083413+00:00
+unixtime: 1675224264
+utc_datetime: 2023-02-01T04:04:24.464088+00:00
 utc_offset: -05:00
-week_number: 45
+week_number: 5
 **************************************
-
+HH HHHH
 **************************************
 abbreviation: EST
 client_ip: aaa.bbb.ccc.ddd
-datetime: 2022-11-10T14:03:49.122480-05:00
-day_of_week: 4
-day_of_year: 314
+datetime: 2023-01-31T23:05:24.465017-05:00
+day_of_week: 2
+day_of_year: 31
 dst: false
 dst_from: 
 dst_offset: 0
 dst_until: 
 raw_offset: -18000
 timezone: America/Toronto
-unixtime: 1668107029
-utc_datetime: 2022-11-10T19:03:49.122480+00:00
+unixtime: 1675224324
+utc_datetime: 2023-02-01T04:05:24.465017+00:00
 utc_offset: -05:00
-week_number: 45
+week_number: 5
 ************************************
 ```
 
@@ -602,7 +601,8 @@ Submit issues to: [Portenta_H7_AsyncHTTPRequest issues](https://github.com/khoih
 11. Fix bug of wrong `reqStates`
 12. Default to reconnect to the same `host:port` after connected for new HTTP sites.
 13. Use `allman astyle` and add `utils`
-
+14. Fix bug of `_parseURL()`. Check [Bug with _parseURL() #21](https://github.com/khoih-prog/AsyncHTTPSRequest_Generic/issues/21)
+15. Improve `README.md` so that links can be used in other sites, such as `PIO`
  
 ---
 ---

@@ -1,6 +1,6 @@
 {
   "name": "Portenta_H7_AsyncHTTPRequest",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "keywords": "communication, http, async, websocket, webserver, async-webserver, async-tcp, async-udp, async-websocket, async-http, ssl, tls, mbed, mbed-portenta, portenta-h7, portentah7, portenta-h7-m7, portenta-h7-m4, portentah7-m7, portentah7-m4, stm32h7",
   "description": "Simple Async HTTP Request library, supporting GET, POST, PUT, PATCH, DELETE and HEAD, on top of Portenta_H7_AsyncTCP library for Portenta_7, using Vision-shield Ethernet or Murata WiFi.",
   "authors": 
